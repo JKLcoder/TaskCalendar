@@ -288,8 +288,8 @@
     const todayISO = dateToISO(today);
     const selectedISO = dateToISO(selectedDate);
     panelRelation.textContent = selectedISO === todayISO
-      ? "Selected date is today."
-      : `Today overview above is for ${new Intl.DateTimeFormat("en", { month: "long", day: "numeric" }).format(today)}.`;
+      ? "Today"
+      : `Today overview: ${new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(today)}`;
     const noun = dayTasks.length === 1 ? "task" : "tasks";
     panelSummary.textContent = hasActiveFilters()
       ? `${dayTasks.length} matching ${noun}`
@@ -339,7 +339,7 @@
     todayDoneCount.textContent = metrics.done;
     weekOpenCount.textContent = metrics.weekOpen;
     weekPressurePill.className = `pressure-pill ${metrics.weekPressure}`;
-    weekPressurePill.textContent = `Week pressure: ${statusCase(metrics.weekPressure)}`;
+    weekPressurePill.textContent = `Pressure: ${statusCase(metrics.weekPressure)}`;
     weekPressureHint.textContent = `${metrics.weekOverdue} overdue in Mon-Sun open tasks`;
     commandClearFiltersButton.disabled = !hasActiveFilters();
   }

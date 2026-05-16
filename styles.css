@@ -559,42 +559,57 @@ button {
 }
 
 .panel-header {
-  padding: 14px 14px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
 }
 
 .panel-kicker {
-  margin-bottom: 5px;
+  flex: 0 0 100%;
+  margin-bottom: 0;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 780;
   text-transform: uppercase;
 }
 
 .panel-date {
+  flex: 0 0 100%;
   margin: 0;
-  font-size: 19px;
+  font-size: 17px;
   line-height: 1.2;
 }
 
 .panel-summary {
-  margin: 6px 0 0;
+  margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 680;
 }
 
 .panel-relation {
-  margin: 6px 0 0;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--surface-2);
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.35;
+  padding: 3px 7px;
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 1.2;
 }
 
 .filter-summary {
-  margin: 6px 0 0;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(35, 111, 98, 0.1);
   color: var(--accent);
-  font-size: 12px;
+  padding: 3px 7px;
+  font-size: 11px;
   font-weight: 720;
+  line-height: 1.2;
 }
 
 .today-command {
@@ -602,8 +617,8 @@ button {
   top: 0;
   z-index: 2;
   display: grid;
-  gap: 8px;
-  padding: 12px;
+  gap: 7px;
+  padding: 10px;
   border-bottom: 1px solid var(--border);
   border-radius: 12px 12px 0 0;
   background:
@@ -613,14 +628,14 @@ button {
 
 .today-command-topline {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 
 .today-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.2;
 }
 
@@ -630,23 +645,28 @@ button {
   border-radius: 999px;
   background: #ffffff;
   color: var(--accent);
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 3px 7px;
+  font-size: 11px;
   font-weight: 760;
 }
 
 .today-metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 5px;
+  gap: 4px;
 }
 
 .metric-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: 7px;
+  row-gap: 3px;
   min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #ffffff;
-  padding: 7px;
+  padding: 6px 7px;
 }
 
 .metric-card.overdue {
@@ -665,7 +685,7 @@ button {
 .metric-value {
   display: block;
   color: var(--text);
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   font-weight: 800;
 }
@@ -680,9 +700,9 @@ button {
 
 .metric-label {
   display: block;
-  margin-top: 4px;
+  margin-top: 0;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 760;
   text-transform: uppercase;
 }
@@ -702,8 +722,10 @@ button {
 .pressure-pill {
   display: inline-flex;
   align-items: center;
+  grid-column: 1 / -1;
+  justify-self: start;
   min-height: 18px;
-  margin-top: 5px;
+  margin-top: 0;
   border: 1px solid rgba(100, 116, 139, 0.24);
   border-radius: 999px;
   background: #f8fafc;
@@ -738,44 +760,49 @@ button {
 }
 
 .today-command-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.today-command-actions .button {
+  min-height: 28px;
 }
 
 .legend {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-between;
   gap: 6px;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 650;
 }
 
 .status-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
   background: var(--todo);
 }
 
 .panel-list {
   display: grid;
-  gap: 8px;
-  padding: 12px;
+  gap: 7px;
+  padding: 10px;
 }
 
 .detail-card {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #fbfcfb;
@@ -803,31 +830,31 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .detail-title {
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.25;
 }
 
 .status-label {
   flex: 0 0 auto;
   border-radius: 999px;
-  padding: 4px 8px;
+  padding: 3px 7px;
   background: var(--todo);
   color: #ffffff;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 760;
   text-transform: uppercase;
 }
 
 .detail-body {
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: 12px;
+  line-height: 1.38;
 }
 
 .detail-meta {
@@ -840,9 +867,9 @@ button {
 .meta-pill {
   border-radius: 999px;
   background: var(--surface-2);
-  padding: 5px 8px;
+  padding: 4px 7px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 650;
 }
 
@@ -850,7 +877,7 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .text-button {
