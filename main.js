@@ -1,7 +1,10 @@
 const { app, BrowserWindow, Menu, dialog } = require("electron");
+const fs = require("node:fs/promises");
 const path = require("node:path");
 
 const APP_NAME = "Task Calendar";
+const MENU_ACTION_CHANNEL = "task-calendar:menu-action";
+const IMPORT_JSON_CHANNEL = "task-calendar:import-json";
 const isMac = process.platform === "darwin";
 
 app.setName(APP_NAME);
@@ -18,23 +21,53 @@ function triggerRendererAction(action, browserWindow) {
   const targetWindow = getTargetWindow(browserWindow);
   if (!targetWindow) return;
 
-  const script = `
-    (() => {
-      const actionButtons = {
-        newTask: "newTaskButton",
-        importTasks: "importButton",
-        exportTasks: "exportButton",
-        resetDemoData: "resetDemoButton"
-      };
-      const button = document.getElementById(actionButtons[${JSON.stringify(action)}]);
-      if (!button) return false;
-      button.click();
-      return true;
-    })()
-  `;
+  targetWindow.webContents.send(MENU_ACTION_CHANNEL, action);
+}
 
-  targetWindow.webContents.executeJavaScript(script).catch((error) => {
-    console.error(`Failed to run renderer action "${action}":`, error);
+async function importTasksFromDialog(browserWindow) {
+  const targetWindow = getTargetWindow(browserWindow);
+  if (!targetWindow) return;
+
+  const result = await dialog.showOpenDialog({
+    title: "Import Tasks",
+    properties: ["openFile"],
+    filters: [
+      { name: "JSON files", extensions: ["json"] },
+      { name: "All files", extensions: ["*"] }
+    ]
+  });
+  if (result.canceled || !result.filePaths.length) return;
+
+  try {
+    const filePath = result.filePaths[0];
+    const text = await fs.readFile(filePath, "utf8");
+    targetWindow.webContents.send(IMPORT_JSON_CHANNEL, {
+      fileName: path.basename(filePath),
+      text
+    });
+  } catch (error) {
+    dialog.showMessageBox(targetWindow, {
+      type: "error",
+      title: "Import failed",
+      message: "Unable to read the selected JSON file.",
+      detail: error.message,
+      buttons: ["OK"]
+    });
+  }
+}
+
+function openImportTasksDialog(browserWindow) {
+  const targetWindow = getTargetWindow(browserWindow);
+  importTasksFromDialog(targetWindow).catch((error) => {
+    console.error("Failed to open import dialog:", error);
+    if (!targetWindow) return;
+    dialog.showMessageBox(targetWindow, {
+      type: "error",
+      title: "Import failed",
+      message: "Unable to open the import dialog.",
+      detail: error.message,
+      buttons: ["OK"]
+    });
   });
 }
 
@@ -75,13 +108,18 @@ function handleWindowShortcut(event, input, browserWindow) {
 
   const actions = {
     n: "newTask",
-    i: "importTasks",
     e: "exportTasks"
   };
 
   if (actions[key]) {
     event.preventDefault();
     triggerRendererAction(actions[key], browserWindow);
+    return;
+  }
+
+  if (key === "i") {
+    event.preventDefault();
+    openImportTasksDialog(browserWindow);
     return;
   }
 
@@ -110,7 +148,7 @@ function createApplicationMenu() {
         {
           label: "Import Tasks",
           accelerator: "CmdOrCtrl+I",
-          click: (_menuItem, browserWindow) => triggerRendererAction("importTasks", browserWindow)
+          click: (_menuItem, browserWindow) => openImportTasksDialog(browserWindow)
         },
         {
           label: "Export Tasks",
@@ -133,7 +171,14 @@ function createApplicationMenu() {
     {
       label: "View",
       submenu: [
-        { label: "Reload", accelerator: "CmdOrCtrl+R", role: "reload" },
+        {
+          label: "Reload",
+          accelerator: "CmdOrCtrl+R",
+          click: (_menuItem, browserWindow) => {
+            const targetWindow = getTargetWindow(browserWindow);
+            if (targetWindow) targetWindow.reload();
+          }
+        },
         {
           label: "Toggle Developer Tools",
           accelerator: "CmdOrCtrl+Shift+I",
@@ -166,6 +211,7 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
+      preload: path.join(__dirname, "preload.js"),
       sandbox: true
     }
   });

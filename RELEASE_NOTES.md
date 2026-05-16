@@ -1,21 +1,37 @@
 # Release Notes
 
-## v0.1.0 - Local Testing Baseline
+## v0.2.0 - Today-First Release Baseline
 
-Task Calendar v0.1.0 freezes the current local Electron prototype as a baseline for manual testing, packaging validation, and product review.
+Task Calendar v0.2.0 prepares the prototype around a clearer Today-first desktop experience: users should immediately understand what is due today, how much pressure exists this week, and how to start with their own data.
 
-### Major Features
+### Major Changes
 
-- Month calendar task board with selected-day detail panel.
+- Added Today Command Center above Selected Day Details.
+- Added Today Overview metrics for incomplete, overdue, done, and this-week-open tasks.
+- Added Week Pressure signal with Low, Medium, High, and Critical levels.
+- Changed cold startup to focus the real system today and current month.
+- Added first-run start options when no valid saved data exists:
+  - Start blank.
+  - Use demo data.
+  - Import tasks.
+- Start blank stores schema v1 with an empty task array.
+- Use demo data stores the existing seed task set.
+- Corrupted localStorage data is backed up before returning to first-run choice.
+- Compact desktop layout reduces side whitespace, tightens the toolbar, and compresses the right-side Today Overview.
+
+### Preserved Behavior
+
 - Task create, edit, delete, and mark done.
 - Dynamic overdue visual state for unfinished tasks.
 - Search by title, description, and assignee/tag.
 - Status filters for All, Todo, In progress, Done, and Overdue.
 - Today incomplete quick filter.
-- Clear filters and compact active-filter summary.
+- Clear filters and active-filter summary.
 - Toast feedback for common operations.
 - JSON import and export.
-- Reset demo data for prototype demonstrations.
+- Reset demo data.
+- `localStorage` schema v1 compatibility.
+- Native Electron menu and shortcuts.
 
 ### Desktop Packaging Status
 
@@ -24,17 +40,18 @@ Task Calendar v0.1.0 freezes the current local Electron prototype as a baseline 
 - Portable ZIP build is generated with `npm run dist:portable`.
 - Current expected artifacts:
   - `dist/win-unpacked/`
-  - `dist/Task Calendar-0.1.0-portable-x64.zip`
+  - `dist/Task Calendar-0.2.0-portable-x64.zip`
 - The app includes a placeholder Windows icon and basic executable metadata.
 - Builds are unsigned local test artifacts and are not production releases.
 
 ### Storage Behavior
 
 - Task data is stored locally in the Electron profile with browser `localStorage`.
-- Storage schema version is v1.
-- If storage is empty, the app seeds demo task data.
-- If invalid or corrupted storage is detected, the app backs it up under a corrupted backup key and restores seed data.
-- Import replaces current tasks only after user confirmation and validation.
+- Storage schema version remains v1.
+- Valid empty v1 data is treated as intentional and does not trigger first-run again.
+- Missing storage shows the first-run start options.
+- Invalid or corrupted storage is backed up under a corrupted backup key before the user chooses how to restart.
+- Import replaces current tasks only after validation and user confirmation outside first-run.
 
 ### Security Baseline
 
@@ -56,8 +73,44 @@ Task Calendar v0.1.0 freezes the current local Electron prototype as a baseline 
 
 ### Recommended Testing Notes
 
-- Run the full manual checklist in `TEST_CHECKLIST.md` before treating a build as the v0.1.0 baseline.
+- Run the full manual checklist in `TEST_CHECKLIST.md` before treating a build as the v0.2.0 baseline.
 - Verify both `dist/win-unpacked/TaskCalendar.exe` and the extracted portable ZIP.
-- Confirm the renderer console has no errors or warnings.
+- Confirm first-run flows using a clean Electron profile.
+- Confirm the renderer console has no unexpected errors or warnings.
 - Confirm the Electron CSP warning does not return.
 - Confirm localStorage persists after normal close and reopen.
+
+## v0.1.0 - Local Testing Baseline
+
+Task Calendar v0.1.0 froze the initial local Electron prototype as a baseline for manual testing, packaging validation, and product review.
+
+### Major Features
+
+- Month calendar task board with selected-day detail panel.
+- Task create, edit, delete, and mark done.
+- Dynamic overdue visual state for unfinished tasks.
+- Search by title, description, and assignee/tag.
+- Status filters for All, Todo, In progress, Done, and Overdue.
+- Today incomplete quick filter.
+- Clear filters and compact active-filter summary.
+- Toast feedback for common operations.
+- JSON import and export.
+- Reset demo data for prototype demonstrations.
+
+### Desktop Packaging Status
+
+- Electron desktop shell was available through `npm start`.
+- Windows unpacked build was generated with `npm run pack`.
+- Portable ZIP build was generated with `npm run dist:portable`.
+- Expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.1.0-portable-x64.zip`
+- Builds were unsigned local test artifacts and not production releases.
+
+### Security Baseline
+
+- `nodeIntegration` disabled.
+- `contextIsolation` enabled.
+- `sandbox` enabled.
+- Renderer could not access `require`, `process`, or `window.process`.
+- Restrictive local-only Content Security Policy configured.

@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.1.0 local testing baseline. Mark each item after testing both the development app when needed and the packaged Windows app artifacts.
+Use this checklist for the v0.2.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.1.0 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.1.0-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.2.0-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -19,10 +19,35 @@ Use this checklist for the v0.1.0 local testing baseline. Mark each item after t
 - [ ] Launch `dist/win-unpacked/TaskCalendar.exe`.
 - [ ] Extract the portable ZIP to a normal folder and launch `TaskCalendar.exe`.
 - [ ] Confirm the window title is `Task Calendar`.
-- [ ] Confirm the May 2026 month calendar renders.
-- [ ] Confirm the right-side selected-day detail panel renders.
+- [ ] Confirm the app opens on the real current month and selects the real today.
+- [ ] Confirm the month calendar renders.
 - [ ] Confirm task summary cards appear in calendar cells.
 - [ ] Confirm each day shows at most 3 task cards plus `+N more` when needed.
+- [ ] Confirm today and selected date are visually distinguishable.
+- [ ] Confirm the compact desktop layout uses the workspace width without excessive side whitespace.
+- [ ] Confirm the toolbar is compact on normal desktop widths and wraps acceptably on narrow widths.
+
+## Today-First Experience
+
+- [ ] Confirm Today Command Center is the first major right-panel section.
+- [ ] Confirm Selected Day Details appears below Today Command Center.
+- [ ] Confirm Today Overview shows incomplete, overdue, done, and this-week-open metrics.
+- [ ] Confirm Week Pressure appears beside the this-week-open metric.
+- [ ] Confirm Week Pressure changes when current-week tasks are created, completed, or become overdue.
+- [ ] Confirm Show today incomplete selects today and filters unfinished today tasks.
+- [ ] Confirm Clear filters resets search, status filter, and Today incomplete mode.
+
+## First-Run And Empty Data
+
+- [ ] Start with a clean Electron profile or cleared app localStorage.
+- [ ] Confirm the first-run panel appears.
+- [ ] Choose Start blank and confirm schema v1 stores an empty task array.
+- [ ] Reopen the app and confirm valid empty v1 data does not show first-run again.
+- [ ] Reset to clean storage and choose Use demo data.
+- [ ] Confirm demo tasks load and Today Command Center remains visible.
+- [ ] Reset to clean storage and choose Import tasks.
+- [ ] Confirm valid imported tasks load and render.
+- [ ] Confirm corrupted localStorage is backed up before fallback and does not crash the app.
 
 ## Task CRUD
 
@@ -47,15 +72,13 @@ Use this checklist for the v0.1.0 local testing baseline. Mark each item after t
 - [ ] Use the In progress status filter.
 - [ ] Use the Done status filter.
 - [ ] Use the Overdue status filter and confirm overdue is calculated dynamically.
-- [ ] Use Today incomplete and confirm the calendar switches to the real current month and selects today.
-- [ ] Use Clear filters and confirm search, status filter, and Today incomplete mode reset.
 - [ ] Confirm empty states appear when no tasks match current filters.
 
 ## Import, Export, And Demo Data
 
 - [ ] Export tasks and confirm a JSON file downloads.
 - [ ] Import a valid JSON task file.
-- [ ] Confirm import asks for confirmation before replacing data.
+- [ ] Confirm import asks for confirmation before replacing data outside first-run.
 - [ ] Confirm imported tasks render after import.
 - [ ] Try invalid imported JSON and confirm it is rejected without crashing.
 - [ ] Use Reset demo data.
@@ -101,9 +124,11 @@ Use this checklist for the v0.1.0 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Extract `dist/Task Calendar-0.1.0-portable-x64.zip` to a normal folder.
+- [ ] Extract `dist/Task Calendar-0.2.0-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
+- [ ] Confirm Today Command Center and Week Pressure render.
+- [ ] Confirm first-run flows work in a clean extracted-app profile.
 - [ ] Confirm CRUD works.
 - [ ] Confirm localStorage persists after close and reopen.
 - [ ] Confirm import/export works.

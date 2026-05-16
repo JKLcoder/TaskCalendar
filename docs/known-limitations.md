@@ -1,6 +1,6 @@
 # Known Limitations
 
-This document captures the known limitations for the v0.1.0 local testing baseline.
+This document captures the known limitations for the v0.2.0 local testing baseline.
 
 ## Distribution
 
@@ -14,6 +14,7 @@ This document captures the known limitations for the v0.1.0 local testing baseli
 ## Product Scope
 
 - The app icon is a placeholder.
+- Week Pressure is a lightweight heuristic, not a full workload analytics system.
 - There is no cloud sync.
 - There is no backend service.
 - There is no database.
@@ -21,10 +22,12 @@ This document captures the known limitations for the v0.1.0 local testing baseli
 - There is no auto-update.
 - There is no tray integration.
 - There is no reminder or notification system.
+- There is no collaboration or project-management workflow.
 
 ## Data
 
 - Task data is stored locally in the Electron profile `localStorage`.
+- Storage schema remains v1.
 - Data does not sync between machines or Windows user profiles.
 - Clearing the Electron app profile can remove local task data.
 - Export/import is the only manual backup and restore path in this prototype.

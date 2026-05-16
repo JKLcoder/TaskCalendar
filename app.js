@@ -430,6 +430,9 @@
   }
 
   function closeTaskForm() {
+    if (taskModal.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
     taskModal.classList.remove("open");
     taskModal.setAttribute("aria-hidden", "true");
     taskForm.reset();
@@ -523,12 +526,11 @@
     showToast("Tasks exported.");
   }
 
-  async function importTasks(file, options = {}) {
-    if (!file) return;
+  function importTasksFromText(text, options = {}) {
     const fromFirstRun = Boolean(options.fromFirstRun);
 
     try {
-      const importedTasks = parseImport(await file.text());
+      const importedTasks = parseImport(text);
       if (!fromFirstRun && !confirm("Importing will replace your current local tasks. Continue?")) return;
       persistTasks(importedTasks);
 
@@ -544,6 +546,16 @@
 
       renderAll();
       showToast("Tasks imported.");
+    } catch (error) {
+      showValidationError(error.message);
+    }
+  }
+
+  async function importTasks(file, options = {}) {
+    if (!file) return;
+
+    try {
+      importTasksFromText(await file.text(), options);
     } catch (error) {
       showValidationError(error.message);
     } finally {
@@ -646,6 +658,23 @@
       openTaskForm(tasks.find((task) => task.id === event.target.dataset.taskId));
     }
   });
+
+  if (window.taskCalendarDesktop) {
+    window.taskCalendarDesktop.onMenuAction((action) => {
+      const actions = {
+        newTask: () => {
+          if (!firstRunActive) openTaskForm();
+        },
+        exportTasks,
+        resetDemoData
+      };
+      actions[action]?.();
+    });
+
+    window.taskCalendarDesktop.onImportTasksText((payload) => {
+      importTasksFromText(payload.text, { fromFirstRun: firstRunActive });
+    });
+  }
 
   window.CalendarApp = {
     getEffectiveStatus,
