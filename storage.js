@@ -111,7 +111,21 @@
   function writePayload(tasks) {
     const payload = toPayload(tasks);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    lastLoadNotice = null;
     return cloneTasks(payload.tasks);
+  }
+
+  function hasSavedTaskPayload() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return false;
+
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed?.version !== SCHEMA_VERSION) return false;
+      return Boolean(normalizeTaskList(parsed.tasks, { repairId: true }));
+    } catch {
+      return false;
+    }
   }
 
   function backupCorruptedData(rawValue, reason) {
@@ -192,6 +206,7 @@
     defaultTasks: cloneTasks(defaultTasks),
     generateId,
     getLastLoadNotice,
+    hasSavedTaskPayload,
     isValidDate,
     isValidTime,
     loadTasks,

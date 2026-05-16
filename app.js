@@ -4,6 +4,7 @@
     buildExport,
     generateId,
     getLastLoadNotice,
+    hasSavedTaskPayload,
     isValidDate,
     isValidTime,
     loadTasks,
@@ -61,11 +62,10 @@
   const toast = document.getElementById("toast");
 
   const startupDate = getTodayDate();
-  const hadStoredTaskData = Boolean(localStorage.getItem(STORAGE_KEY));
   let tasks = loadTasks({ seedIfMissing: false, seedIfInvalid: false });
   let currentMonth = new Date(startupDate.getFullYear(), startupDate.getMonth(), 1);
   let selectedDate = startupDate;
-  let firstRunActive = !hadStoredTaskData || Boolean(getLastLoadNotice());
+  let firstRunActive = !hasSavedTaskPayload() || Boolean(getLastLoadNotice());
   let importFromFirstRun = false;
   let filters = {
     query: "",

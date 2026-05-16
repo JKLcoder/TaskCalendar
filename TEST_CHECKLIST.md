@@ -50,6 +50,7 @@ Use this checklist for the v0.3.0 local testing baseline. Mark each item after t
 - [ ] Confirm the first-run panel appears.
 - [ ] Choose Start blank and confirm schema v1 stores an empty task array.
 - [ ] Reopen the app and confirm valid empty v1 data does not show first-run again.
+- [ ] From Start blank, create a minimal task, close/reopen, and confirm first-run does not return.
 - [ ] Reset to clean storage and choose Use demo data.
 - [ ] Confirm demo tasks load and Today Command Center remains visible.
 - [ ] Reset to clean storage and choose Import tasks.
