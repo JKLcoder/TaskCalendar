@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.3.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.3.1 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.3.0 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.3.0-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.3.1-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -51,10 +51,13 @@ Use this checklist for the v0.3.0 local testing baseline. Mark each item after t
 - [ ] Choose Start blank and confirm schema v1 stores an empty task array.
 - [ ] Reopen the app and confirm valid empty v1 data does not show first-run again.
 - [ ] From Start blank, create a minimal task, close/reopen, and confirm first-run does not return.
+- [ ] Confirm the saved minimal task loads after close/reopen.
 - [ ] Reset to clean storage and choose Use demo data.
 - [ ] Confirm demo tasks load and Today Command Center remains visible.
 - [ ] Reset to clean storage and choose Import tasks.
 - [ ] Confirm valid imported tasks load and render.
+- [ ] Import `{ "version": 1, "tasks": [] }` and confirm the known New Task modal editability issue is still documented.
+- [ ] If the empty-import modal issue appears, restart the app and confirm New Task becomes editable again.
 - [ ] Confirm corrupted localStorage is backed up before fallback and does not crash the app.
 
 ## Task CRUD
@@ -99,6 +102,7 @@ Use this checklist for the v0.3.0 local testing baseline. Mark each item after t
 - [ ] Close the app normally.
 - [ ] Reopen the same app build.
 - [ ] Confirm the task persists from `localStorage`.
+- [ ] Confirm packaged app data is stored under `%APPDATA%\Task Calendar\`, not inside the portable app folder.
 - [ ] Mark a task done.
 - [ ] Close and reopen again.
 - [ ] Confirm the done status persists.
@@ -132,11 +136,13 @@ Use this checklist for the v0.3.0 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Extract `dist/Task Calendar-0.3.0-portable-x64.zip` to a normal folder.
+- [ ] Copy `dist/Task Calendar-0.3.1-portable-x64.zip` to a separate normal folder.
+- [ ] Extract `dist/Task Calendar-0.3.1-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.
 - [ ] Confirm first-run flows work in a clean extracted-app profile.
+- [ ] Choose Start blank, create a task, close/reopen the same extracted `TaskCalendar.exe`, and confirm the task persists.
 - [ ] Confirm CRUD works.
 - [ ] Confirm localStorage persists after close and reopen.
 - [ ] Confirm import/export works.

@@ -1,5 +1,45 @@
 # Release Notes
 
+## v0.3.1 - First-Run Persistence Hotfix
+
+Task Calendar v0.3.1 is a focused bugfix release for first-run persistence detection. It does not add product features, change UI behavior, change storage schema v1, or relax Electron security settings.
+
+### Bugfixes
+
+- Fixed first-run persistence detection so startup checks for a valid schema v1 payload instead of relying only on whether the storage key exists.
+- Valid schema v1 empty payloads can now suppress first-run.
+- Start blank plus creating and saving a task persists after close/reopen without returning to first-run.
+- Clean rebuilt `win-unpacked` and portable ZIP artifacts were verified for Start blank persistence.
+
+### Data Location
+
+- Packaged builds store task data in the Electron user profile:
+  - `%APPDATA%\Task Calendar\`
+- The portable ZIP does not store task data inside the extracted app folder.
+- Moving the portable app folder does not move user data.
+
+### Known Issue
+
+- Importing an empty JSON payload such as `{ "version": 1, "tasks": [] }` may leave the New Task modal non-editable until the app is restarted.
+- Workaround: use Start blank when beginning from an empty state, or restart the app after importing an empty JSON file.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.3.1-portable-x64.zip`
+- Builds are unsigned local test artifacts and are not production releases.
+
+### Recommended Testing Notes
+
+- Verify Start blank, create task, close/reopen, and confirm first-run does not return.
+- Verify both `dist/win-unpacked/TaskCalendar.exe` and an extracted copy of `dist/Task Calendar-0.3.1-portable-x64.zip`.
+- Confirm renderer security and CSP warning status remain unchanged.
+- Confirm the empty JSON import modal limitation is still documented as a known issue, not treated as fixed.
+
 ## v0.3.0 - Desktop Layout Release Baseline
 
 Task Calendar v0.3.0 focuses on making the desktop workspace feel stable, compact, and easier to scan without adding new business features or changing storage schema v1.

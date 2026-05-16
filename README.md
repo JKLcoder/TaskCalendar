@@ -2,7 +2,7 @@
 
 Task Calendar is a local Electron desktop prototype for managing tasks on a month calendar board. It focuses on a Today-first workflow: open the app, see today's workload, understand this week's pressure, and manage tasks from a compact desktop calendar.
 
-This repository is preparing the v0.3.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
+This repository is preparing the v0.3.1 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
 
 ## Development Run
 
@@ -21,9 +21,19 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.3.0-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.3.1-portable-x64.zip`.
 - To run the portable build, extract the ZIP to a normal folder first, then launch `TaskCalendar.exe`.
 - Running the app directly from temporary folders may be unreliable in some Windows/Electron environments.
+
+## Local Data Location
+
+Task data is stored in the Electron user profile `localStorage` under:
+
+```text
+%APPDATA%\Task Calendar\
+```
+
+The portable ZIP does not store task data inside the extracted app folder. Moving the portable app folder does not move user data; export JSON first if you want to transfer tasks to another Windows profile or machine.
 
 ## Desktop Menu
 
@@ -40,6 +50,14 @@ npm run dist:portable
 - `Ctrl/Cmd+Shift+I`: Toggle Developer Tools.
 - `F12`: Toggle Developer Tools.
 - `Ctrl/Cmd+Q`: Quit.
+
+## v0.3.1 Scope
+
+- Hotfix release for first-run persistence detection.
+- Valid schema v1 empty payloads suppress first-run.
+- Start blank plus a newly created task persists after close/reopen.
+- Clean rebuilt `win-unpacked` and portable ZIP artifacts persist data through the shared Electron user profile.
+- Known issue: importing an empty JSON file may leave the New Task modal non-editable until app restart. Use Start blank for a new empty calendar, or restart after importing an empty JSON file.
 
 ## v0.3.0 Scope
 
@@ -75,6 +93,7 @@ npm run dist:portable
 - Packaged output is unsigned local prototype output, not a signed production release.
 - Windows may show trust warnings for the unsigned app.
 - The app icon is a simple placeholder calendar/check mark.
-- Data is local to the Electron app profile `localStorage`.
+- Data is local to the Electron app profile `localStorage` under `%APPDATA%\Task Calendar\`.
+- Portable app data is not stored inside the extracted app folder.
 - No cloud sync, installer, auto-update, reminders, notifications, tray integration, database, backend, or account system.
 - Portable ZIP should be extracted before running.
