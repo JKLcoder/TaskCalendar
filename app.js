@@ -47,6 +47,8 @@
   const todayOverdueCount = document.getElementById("todayOverdueCount");
   const todayDoneCount = document.getElementById("todayDoneCount");
   const weekOpenCount = document.getElementById("weekOpenCount");
+  const weekPressurePill = document.getElementById("weekPressurePill");
+  const weekPressureHint = document.getElementById("weekPressureHint");
   const commandTodayIncompleteButton = document.getElementById("commandTodayIncompleteButton");
   const commandClearFiltersButton = document.getElementById("commandClearFiltersButton");
   const toast = document.getElementById("toast");
@@ -154,6 +156,10 @@
     }).format(date);
   }
 
+  function statusCase(value) {
+    return String(value || "").replace(/^\w/, (letter) => letter.toUpperCase());
+  }
+
   function getWeekRange(date) {
     const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const mondayOffset = (start.getDay() + 6) % 7;
@@ -168,18 +174,29 @@
     return taskDate >= start && taskDate <= end;
   }
 
+  function getWeekPressureLevel(openCount, overdueCount) {
+    if (openCount >= 15 || overdueCount >= 4) return "critical";
+    if (openCount >= 9 || overdueCount >= 2) return "high";
+    if (openCount >= 4 || overdueCount >= 1) return "medium";
+    return "low";
+  }
+
   function getTodayMetrics() {
     const today = getTodayDate();
     const todayISO = dateToISO(today);
     const todayTasks = tasks.filter((task) => task.date === todayISO);
     const weekRange = getWeekRange(today);
+    const weekOpenTasks = tasks.filter((task) => task.status !== "done" && isTaskInDateRange(task, weekRange.start, weekRange.end));
+    const weekOverdue = weekOpenTasks.filter((task) => getEffectiveStatus(task) === "overdue").length;
 
     return {
       today,
       incomplete: todayTasks.filter((task) => task.status !== "done").length,
       overdue: todayTasks.filter((task) => getEffectiveStatus(task) === "overdue").length,
       done: todayTasks.filter((task) => task.status === "done").length,
-      weekOpen: tasks.filter((task) => task.status !== "done" && isTaskInDateRange(task, weekRange.start, weekRange.end)).length
+      weekOpen: weekOpenTasks.length,
+      weekOverdue,
+      weekPressure: getWeekPressureLevel(weekOpenTasks.length, weekOverdue)
     };
   }
 
@@ -311,6 +328,9 @@
     todayOverdueCount.textContent = metrics.overdue;
     todayDoneCount.textContent = metrics.done;
     weekOpenCount.textContent = metrics.weekOpen;
+    weekPressurePill.className = `pressure-pill ${metrics.weekPressure}`;
+    weekPressurePill.textContent = `Week pressure: ${statusCase(metrics.weekPressure)}`;
+    weekPressureHint.textContent = `${metrics.weekOverdue} overdue in Mon-Sun open tasks`;
     commandClearFiltersButton.disabled = !hasActiveFilters();
   }
 
