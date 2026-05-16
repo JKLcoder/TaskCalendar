@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'none'; media-src 'none'" />
+    <title>Task Calendar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <div class="shell">
+        <section class="board" aria-label="Task calendar">
+          <header class="toolbar">
+            <div class="month-controls">
+              <button class="icon-button" id="prevMonthButton" type="button" aria-label="Previous month" title="Previous month">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+              <h1 class="month-title" id="monthTitle">May 2026</h1>
+              <button class="icon-button" id="nextMonthButton" type="button" aria-label="Next month" title="Next month">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <div class="actions">
+              <label class="search-field" for="taskSearchInput">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="m21 21-4.2-4.2M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <input id="taskSearchInput" type="search" placeholder="Search tasks" autocomplete="off" />
+              </label>
+              <div class="filter-group" id="statusFilterGroup" aria-label="Filter tasks by status">
+                <button class="filter-button active" type="button" data-status-filter="all">All</button>
+                <button class="filter-button" type="button" data-status-filter="todo">Todo</button>
+                <button class="filter-button" type="button" data-status-filter="in_progress">In progress</button>
+                <button class="filter-button" type="button" data-status-filter="done">Done</button>
+                <button class="filter-button" type="button" data-status-filter="overdue">Overdue</button>
+              </div>
+              <button class="button quiet" id="clearFiltersButton" type="button" disabled>Clear filters</button>
+              <button class="button" id="todayIncompleteButton" type="button">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3v3M17 3v3M4 9h16M9 15l2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Today incomplete
+              </button>
+              <button class="button" id="todayButton" type="button">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                Today
+              </button>
+              <button class="button" id="exportButton" type="button">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Export
+              </button>
+              <button class="button" id="importButton" type="button">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 21V9m0 0 4 4m-4-4-4 4M5 5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Import
+              </button>
+              <button class="button quiet" id="resetDemoButton" type="button">Reset demo data</button>
+              <input class="file-input" id="importFileInput" type="file" accept="application/json,.json" />
+              <button class="button primary" id="newTaskButton" type="button">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                New Task
+              </button>
+            </div>
+          </header>
+
+          <div class="calendar">
+            <div class="weekday-row" aria-hidden="true">
+              <div class="weekday">Mon</div>
+              <div class="weekday">Tue</div>
+              <div class="weekday">Wed</div>
+              <div class="weekday">Thu</div>
+              <div class="weekday">Fri</div>
+              <div class="weekday">Sat</div>
+              <div class="weekday">Sun</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+          </div>
+        </section>
+
+        <aside class="detail-panel" aria-label="Selected day task details">
+          <div class="panel-header">
+            <div class="panel-kicker">Selected day</div>
+            <h2 class="panel-date" id="panelDate">Friday, May 15, 2026</h2>
+            <p class="panel-summary" id="panelSummary">4 tasks scheduled</p>
+            <p class="filter-summary" id="filterSummary">Showing: All tasks</p>
+          </div>
+          <div class="legend" aria-label="Task status legend">
+            <div class="legend-item"><span class="status-dot"></span>Todo</div>
+            <div class="legend-item"><span class="status-dot in_progress"></span>In progress</div>
+            <div class="legend-item"><span class="status-dot done"></span>Done</div>
+            <div class="legend-item"><span class="status-dot overdue"></span>Overdue</div>
+          </div>
+          <div class="panel-list" id="panelList"></div>
+        </aside>
+      </div>
+    </main>
+
+    <div class="modal-backdrop" id="taskModal" aria-hidden="true">
+      <section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+        <header class="modal-header">
+          <h2 class="modal-title" id="taskModalTitle">New Task</h2>
+          <button class="icon-button" id="closeModalButton" type="button" aria-label="Close task form" title="Close">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </header>
+        <form class="task-form" id="taskForm" novalidate>
+          <input id="taskId" type="hidden" />
+          <div class="form-row">
+            <label for="taskTitle">Title</label>
+            <input id="taskTitle" name="title" type="text" required maxlength="90" />
+          </div>
+          <div class="form-row">
+            <label for="taskDescription">Description</label>
+            <textarea id="taskDescription" name="description" maxlength="360"></textarea>
+          </div>
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="taskDate">Date</label>
+              <input id="taskDate" name="date" type="date" required />
+            </div>
+            <div class="form-row">
+              <label for="taskTime">Time</label>
+              <input id="taskTime" name="time" type="time" />
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="taskStatus">Status</label>
+              <select id="taskStatus" name="status">
+                <option value="todo">Todo</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="taskAssignee">Assignee</label>
+              <input id="taskAssignee" name="assignee" type="text" maxlength="40" />
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="text-button danger" id="deleteTaskButton" type="button">Delete</button>
+            <div class="modal-actions-main">
+              <button class="button" id="cancelTaskButton" type="button">Cancel</button>
+              <button class="button primary" type="submit">Save Task</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="storage.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

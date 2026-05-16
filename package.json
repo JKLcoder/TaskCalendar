@@ -1,0 +1,45 @@
+{
+  "name": "calendar-task-board",
+  "version": "0.1.0",
+  "private": true,
+  "productName": "Task Calendar",
+  "description": "Task Calendar local desktop task manager",
+  "author": "Local Prototype",
+  "license": "UNLICENSED",
+  "copyright": "Copyright © 2026 Local Prototype",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist:portable": "electron-builder --win zip"
+  },
+  "devDependencies": {
+    "electron": "^39.8.5",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.local.taskcalendar",
+    "productName": "Task Calendar",
+    "executableName": "TaskCalendar",
+    "artifactName": "${productName}-${version}-portable-${arch}.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "storage.js",
+      "main.js",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "legalTrademarks": "Copyright © 2026 Local Prototype",
+      "target": [
+        "dir",
+        "zip"
+      ]
+    }
+  }
+}
