@@ -22,8 +22,7 @@
         </div>
       </section>
       <div class="shell">
-        <section class="board" aria-label="Task calendar">
-          <header class="toolbar">
+        <header class="toolbar" aria-label="Task calendar controls">
             <div class="month-controls">
               <button class="icon-button" id="prevMonthButton" type="button" aria-label="Previous month" title="Previous month">
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -38,45 +37,51 @@
               </button>
             </div>
             <div class="actions">
-              <label class="search-field" for="taskSearchInput">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="m21 21-4.2-4.2M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <input id="taskSearchInput" type="search" placeholder="Search tasks" autocomplete="off" />
-              </label>
-              <div class="filter-group" id="statusFilterGroup" aria-label="Filter tasks by status">
-                <button class="filter-button active" type="button" data-status-filter="all">All</button>
-                <button class="filter-button" type="button" data-status-filter="todo">Todo</button>
-                <button class="filter-button" type="button" data-status-filter="in_progress">In progress</button>
-                <button class="filter-button" type="button" data-status-filter="done">Done</button>
-                <button class="filter-button" type="button" data-status-filter="overdue">Overdue</button>
+              <div class="tool-group search-tools">
+                <label class="search-field" for="taskSearchInput">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="m21 21-4.2-4.2M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  <input id="taskSearchInput" type="search" placeholder="Search tasks" autocomplete="off" />
+                </label>
+                <div class="filter-group" id="statusFilterGroup" aria-label="Filter tasks by status">
+                  <button class="filter-button active" type="button" data-status-filter="all">All</button>
+                  <button class="filter-button" type="button" data-status-filter="todo">Todo</button>
+                  <button class="filter-button" type="button" data-status-filter="in_progress">In progress</button>
+                  <button class="filter-button" type="button" data-status-filter="done">Done</button>
+                  <button class="filter-button" type="button" data-status-filter="overdue">Overdue</button>
+                </div>
+                <button class="button quiet" id="clearFiltersButton" type="button" disabled>Clear filters</button>
               </div>
-              <button class="button quiet" id="clearFiltersButton" type="button" disabled>Clear filters</button>
-              <button class="button" id="todayIncompleteButton" type="button">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3v3M17 3v3M4 9h16M9 15l2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Today incomplete
-              </button>
-              <button class="button" id="todayButton" type="button">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                Today
-              </button>
-              <button class="button" id="exportButton" type="button">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Export
-              </button>
-              <button class="button" id="importButton" type="button">
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 21V9m0 0 4 4m-4-4-4 4M5 5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Import
-              </button>
-              <button class="button quiet" id="resetDemoButton" type="button">Reset demo data</button>
+              <div class="tool-group focus-tools">
+                <button class="button" id="todayIncompleteButton" type="button">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3v3M17 3v3M4 9h16M9 15l2 2 4-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Today incomplete
+                </button>
+                <button class="button" id="todayButton" type="button">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3v3M17 3v3M4 9h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                  Today
+                </button>
+              </div>
+              <div class="tool-group secondary-tools">
+                <button class="button" id="exportButton" type="button">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Export
+                </button>
+                <button class="button" id="importButton" type="button">
+                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 21V9m0 0 4 4m-4-4-4 4M5 5h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Import
+                </button>
+                <button class="button quiet" id="resetDemoButton" type="button" title="Reset demo data">Reset demo</button>
+              </div>
               <input class="file-input" id="importFileInput" type="file" accept="application/json,.json" />
               <button class="button primary" id="newTaskButton" type="button">
                 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -85,8 +90,9 @@
                 New Task
               </button>
             </div>
-          </header>
+        </header>
 
+        <section class="board" aria-label="Task calendar">
           <div class="calendar">
             <div class="weekday-row" aria-hidden="true">
               <div class="weekday">Mon</div>
@@ -126,7 +132,6 @@
               <div class="metric-card week" title="Monday-Sunday open tasks">
                 <span class="metric-value" id="weekOpenCount">0</span>
                 <span class="metric-label">This week open</span>
-                <span class="metric-hint">Mon-Sun open tasks</span>
                 <span class="pressure-pill low" id="weekPressurePill">Week pressure: Low</span>
                 <span class="metric-hint" id="weekPressureHint">Based on open and overdue tasks</span>
               </div>
