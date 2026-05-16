@@ -9,6 +9,18 @@
   </head>
   <body>
     <main class="app">
+      <section class="first-run-panel" id="firstRunPanel" aria-labelledby="firstRunTitle" hidden>
+        <div class="first-run-content">
+          <p class="panel-kicker">Welcome</p>
+          <h1 id="firstRunTitle">Start your Task Calendar</h1>
+          <p class="first-run-copy">Turn today and this week into a clear work map.</p>
+          <div class="first-run-actions">
+            <button class="button primary" id="startBlankButton" type="button">Start blank</button>
+            <button class="button" id="useDemoDataButton" type="button">Use demo data</button>
+            <button class="button" id="firstRunImportButton" type="button">Import tasks</button>
+          </div>
+        </div>
+      </section>
       <div class="shell">
         <section class="board" aria-label="Task calendar">
           <header class="toolbar">

@@ -3,12 +3,14 @@
     ALLOWED_STATUSES,
     buildExport,
     generateId,
+    getLastLoadNotice,
     isValidDate,
     isValidTime,
     loadTasks,
     parseImport,
     resetTasks,
-    saveTasks
+    saveTasks,
+    STORAGE_KEY
   } = window.TaskStorage;
 
   const statusLabels = {
@@ -19,6 +21,11 @@
   };
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+  const appRoot = document.querySelector(".app");
+  const firstRunPanel = document.getElementById("firstRunPanel");
+  const startBlankButton = document.getElementById("startBlankButton");
+  const useDemoDataButton = document.getElementById("useDemoDataButton");
+  const firstRunImportButton = document.getElementById("firstRunImportButton");
   const grid = document.getElementById("calendarGrid");
   const monthTitle = document.getElementById("monthTitle");
   const panelDate = document.getElementById("panelDate");
@@ -54,9 +61,12 @@
   const toast = document.getElementById("toast");
 
   const startupDate = getTodayDate();
-  let tasks = loadTasks();
+  const hadStoredTaskData = Boolean(localStorage.getItem(STORAGE_KEY));
+  let tasks = loadTasks({ seedIfMissing: false, seedIfInvalid: false });
   let currentMonth = new Date(startupDate.getFullYear(), startupDate.getMonth(), 1);
   let selectedDate = startupDate;
+  let firstRunActive = !hadStoredTaskData || Boolean(getLastLoadNotice());
+  let importFromFirstRun = false;
   let filters = {
     query: "",
     status: "all",
@@ -335,10 +345,16 @@
   }
 
   function renderAll() {
+    renderFirstRunState();
     updateFilterControls();
     renderCalendar();
     renderTodayCommandCenter();
     renderPanel();
+  }
+
+  function renderFirstRunState() {
+    appRoot.classList.toggle("first-run-mode", firstRunActive);
+    firstRunPanel.hidden = !firstRunActive;
   }
 
   function updateFilterControls() {
@@ -423,6 +439,24 @@
     tasks = saveTasks(nextTasks);
   }
 
+  function finishFirstRun(message) {
+    filters = { query: "", status: "all", todayIncomplete: false };
+    focusToday();
+    firstRunActive = false;
+    renderAll();
+    showToast(message);
+  }
+
+  function startBlankCalendar() {
+    persistTasks([]);
+    finishFirstRun("Blank calendar started.");
+  }
+
+  function useDemoData() {
+    tasks = resetTasks();
+    finishFirstRun("Demo data loaded. You can reset or import tasks anytime.");
+  }
+
   function upsertTask(event) {
     event.preventDefault();
     const values = getFormValues();
@@ -489,13 +523,19 @@
     showToast("Tasks exported.");
   }
 
-  async function importTasks(file) {
+  async function importTasks(file, options = {}) {
     if (!file) return;
+    const fromFirstRun = Boolean(options.fromFirstRun);
 
     try {
       const importedTasks = parseImport(await file.text());
-      if (!confirm("Importing will replace your current local tasks. Continue?")) return;
+      if (!fromFirstRun && !confirm("Importing will replace your current local tasks. Continue?")) return;
       persistTasks(importedTasks);
+
+      if (fromFirstRun) {
+        finishFirstRun("Tasks imported.");
+        return;
+      }
 
       if (tasks.length) {
         selectedDate = parseISODate(tasks[0].date);
@@ -508,7 +548,13 @@
       showValidationError(error.message);
     } finally {
       importFileInput.value = "";
+      importFromFirstRun = false;
     }
+  }
+
+  function openImportPicker(fromFirstRun = false) {
+    importFromFirstRun = fromFirstRun;
+    importFileInput.click();
   }
 
   function clearFilters() {
@@ -533,13 +579,19 @@
   function resetDemoData() {
     if (!confirm("Reset all local tasks to the demo data? This replaces your current local tasks.")) return;
     tasks = resetTasks();
+    firstRunActive = false;
     filters = { query: "", status: "all", todayIncomplete: false };
     focusToday();
     renderAll();
     showToast("Demo data reset.");
   }
 
-  document.getElementById("newTaskButton").addEventListener("click", () => openTaskForm());
+  startBlankButton.addEventListener("click", startBlankCalendar);
+  useDemoDataButton.addEventListener("click", useDemoData);
+  firstRunImportButton.addEventListener("click", () => openImportPicker(true));
+  document.getElementById("newTaskButton").addEventListener("click", () => {
+    if (!firstRunActive) openTaskForm();
+  });
   document.getElementById("prevMonthButton").addEventListener("click", () => moveMonth(-1));
   document.getElementById("nextMonthButton").addEventListener("click", () => moveMonth(1));
   document.getElementById("todayButton").addEventListener("click", () => {
@@ -564,9 +616,9 @@
     renderAll();
   });
   document.getElementById("exportButton").addEventListener("click", exportTasks);
-  document.getElementById("importButton").addEventListener("click", () => importFileInput.click());
+  document.getElementById("importButton").addEventListener("click", () => openImportPicker(firstRunActive));
   resetDemoButton.addEventListener("click", resetDemoData);
-  importFileInput.addEventListener("change", () => importTasks(importFileInput.files[0]));
+  importFileInput.addEventListener("change", () => importTasks(importFileInput.files[0], { fromFirstRun: importFromFirstRun }));
   document.getElementById("closeModalButton").addEventListener("click", closeTaskForm);
   document.getElementById("cancelTaskButton").addEventListener("click", closeTaskForm);
   deleteTaskButton.addEventListener("click", deleteCurrentTask);
@@ -599,14 +651,15 @@
     getEffectiveStatus,
     getFilterSummary,
     getFilters: () => ({ ...filters }),
+    isFirstRunActive: () => firstRunActive,
     getTodayMetrics,
     getTasks: () => tasks.map((task) => ({ ...task })),
     renderAll
   };
 
   renderAll();
-  const loadNotice = window.TaskStorage.getLastLoadNotice();
+  const loadNotice = getLastLoadNotice();
   if (loadNotice) {
-    showToast("Corrupted local data was backed up. Demo data restored.");
+    showToast("Corrupted local data was backed up. Choose how to start.");
   }
 })();

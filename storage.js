@@ -119,16 +119,18 @@
     try {
       localStorage.setItem(key, rawValue || "");
       lastLoadNotice = { key, reason };
-      console.warn(`Task storage was invalid. Backed up to ${key} and restored demo data.`);
+      console.warn(`Task storage was invalid. Backed up to ${key}.`);
     } catch {
       lastLoadNotice = { key: "", reason };
-      console.warn("Task storage was invalid. Could not create backup, restored demo data.");
+      console.warn("Task storage was invalid. Could not create backup.");
     }
   }
 
-  function loadTasks() {
+  function loadTasks(options = {}) {
+    const seedIfMissing = options.seedIfMissing !== false;
+    const seedIfInvalid = options.seedIfInvalid !== false;
     const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return writePayload(defaultTasks);
+    if (!stored) return seedIfMissing ? writePayload(defaultTasks) : [];
 
     try {
       const parsed = JSON.parse(stored);
@@ -136,12 +138,16 @@
       const normalized = normalizeTaskList(rawTasks, { repairId: true });
       if (!normalized) {
         backupCorruptedData(stored, "Invalid task schema");
-        return writePayload(defaultTasks);
+        if (seedIfInvalid) return writePayload(defaultTasks);
+        localStorage.removeItem(STORAGE_KEY);
+        return [];
       }
       return writePayload(normalized);
     } catch {
       backupCorruptedData(stored, "Unreadable task JSON");
-      return writePayload(defaultTasks);
+      if (seedIfInvalid) return writePayload(defaultTasks);
+      localStorage.removeItem(STORAGE_KEY);
+      return [];
     }
   }
 
