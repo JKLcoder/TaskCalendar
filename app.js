@@ -23,6 +23,7 @@
   const monthTitle = document.getElementById("monthTitle");
   const panelDate = document.getElementById("panelDate");
   const panelSummary = document.getElementById("panelSummary");
+  const panelRelation = document.getElementById("panelRelation");
   const panelList = document.getElementById("panelList");
   const taskModal = document.getElementById("taskModal");
   const taskForm = document.getElementById("taskForm");
@@ -41,11 +42,19 @@
   const clearFiltersButton = document.getElementById("clearFiltersButton");
   const resetDemoButton = document.getElementById("resetDemoButton");
   const filterSummary = document.getElementById("filterSummary");
+  const todayDatePill = document.getElementById("todayDatePill");
+  const todayIncompleteCount = document.getElementById("todayIncompleteCount");
+  const todayOverdueCount = document.getElementById("todayOverdueCount");
+  const todayDoneCount = document.getElementById("todayDoneCount");
+  const weekOpenCount = document.getElementById("weekOpenCount");
+  const commandTodayIncompleteButton = document.getElementById("commandTodayIncompleteButton");
+  const commandClearFiltersButton = document.getElementById("commandClearFiltersButton");
   const toast = document.getElementById("toast");
 
+  const startupDate = getTodayDate();
   let tasks = loadTasks();
-  let currentMonth = new Date(2026, 4, 1);
-  let selectedDate = new Date(2026, 4, 15);
+  let currentMonth = new Date(startupDate.getFullYear(), startupDate.getMonth(), 1);
+  let selectedDate = startupDate;
   let filters = {
     query: "",
     status: "all",
@@ -61,6 +70,11 @@
       "\"": "&quot;",
       "'": "&#39;"
     }[char]));
+  }
+
+  function getTodayDate() {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
   }
 
   function dateToISO(date) {
@@ -140,6 +154,35 @@
     }).format(date);
   }
 
+  function getWeekRange(date) {
+    const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const mondayOffset = (start.getDay() + 6) % 7;
+    start.setDate(start.getDate() - mondayOffset);
+    const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6);
+    return { start, end };
+  }
+
+  function isTaskInDateRange(task, start, end) {
+    if (!isValidDate(task.date)) return false;
+    const taskDate = parseISODate(task.date);
+    return taskDate >= start && taskDate <= end;
+  }
+
+  function getTodayMetrics() {
+    const today = getTodayDate();
+    const todayISO = dateToISO(today);
+    const todayTasks = tasks.filter((task) => task.date === todayISO);
+    const weekRange = getWeekRange(today);
+
+    return {
+      today,
+      incomplete: todayTasks.filter((task) => task.status !== "done").length,
+      overdue: todayTasks.filter((task) => getEffectiveStatus(task) === "overdue").length,
+      done: todayTasks.filter((task) => task.status === "done").length,
+      weekOpen: tasks.filter((task) => task.status !== "done" && isTaskInDateRange(task, weekRange.start, weekRange.end)).length
+    };
+  }
+
   function buildCalendarCells() {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
@@ -214,6 +257,12 @@
   function renderPanel() {
     const dayTasks = getVisibleTasksForDate(selectedDate);
     panelDate.textContent = formatPanelDate(selectedDate);
+    const today = getTodayDate();
+    const todayISO = dateToISO(today);
+    const selectedISO = dateToISO(selectedDate);
+    panelRelation.textContent = selectedISO === todayISO
+      ? "Selected date is today."
+      : `Today overview above is for ${new Intl.DateTimeFormat("en", { month: "long", day: "numeric" }).format(today)}.`;
     const noun = dayTasks.length === 1 ? "task" : "tasks";
     panelSummary.textContent = hasActiveFilters()
       ? `${dayTasks.length} matching ${noun}`
@@ -252,9 +301,23 @@
     }).join("");
   }
 
+  function renderTodayCommandCenter() {
+    const metrics = getTodayMetrics();
+    todayDatePill.textContent = new Intl.DateTimeFormat("en", {
+      month: "short",
+      day: "numeric"
+    }).format(metrics.today);
+    todayIncompleteCount.textContent = metrics.incomplete;
+    todayOverdueCount.textContent = metrics.overdue;
+    todayDoneCount.textContent = metrics.done;
+    weekOpenCount.textContent = metrics.weekOpen;
+    commandClearFiltersButton.disabled = !hasActiveFilters();
+  }
+
   function renderAll() {
     updateFilterControls();
     renderCalendar();
+    renderTodayCommandCenter();
     renderPanel();
   }
 
@@ -433,12 +496,25 @@
     renderAll();
   }
 
+  function showTodayIncomplete() {
+    const today = getTodayDate();
+    filters = { query: "", status: "all", todayIncomplete: true };
+    selectedDate = today;
+    currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    renderAll();
+  }
+
+  function focusToday() {
+    const today = getTodayDate();
+    selectedDate = today;
+    currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  }
+
   function resetDemoData() {
     if (!confirm("Reset all local tasks to the demo data? This replaces your current local tasks.")) return;
     tasks = resetTasks();
     filters = { query: "", status: "all", todayIncomplete: false };
-    selectedDate = new Date(2026, 4, 15);
-    currentMonth = new Date(2026, 4, 1);
+    focusToday();
     renderAll();
     showToast("Demo data reset.");
   }
@@ -448,18 +524,12 @@
   document.getElementById("nextMonthButton").addEventListener("click", () => moveMonth(1));
   document.getElementById("todayButton").addEventListener("click", () => {
     filters.todayIncomplete = false;
-    const today = new Date();
-    selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    focusToday();
     renderAll();
   });
-  todayIncompleteButton.addEventListener("click", () => {
-    const today = new Date();
-    filters = { query: "", status: "all", todayIncomplete: true };
-    selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    renderAll();
-  });
+  todayIncompleteButton.addEventListener("click", showTodayIncomplete);
+  commandTodayIncompleteButton.addEventListener("click", showTodayIncomplete);
+  commandClearFiltersButton.addEventListener("click", clearFilters);
   clearFiltersButton.addEventListener("click", clearFilters);
   taskSearchInput.addEventListener("input", () => {
     filters.query = taskSearchInput.value;
@@ -509,6 +579,7 @@
     getEffectiveStatus,
     getFilterSummary,
     getFilters: () => ({ ...filters }),
+    getTodayMetrics,
     getTasks: () => tasks.map((task) => ({ ...task })),
     renderAll
   };

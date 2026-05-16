@@ -89,20 +89,55 @@
           </div>
         </section>
 
-        <aside class="detail-panel" aria-label="Selected day task details">
-          <div class="panel-header">
-            <div class="panel-kicker">Selected day</div>
-            <h2 class="panel-date" id="panelDate">Friday, May 15, 2026</h2>
-            <p class="panel-summary" id="panelSummary">4 tasks scheduled</p>
-            <p class="filter-summary" id="filterSummary">Showing: All tasks</p>
-          </div>
-          <div class="legend" aria-label="Task status legend">
-            <div class="legend-item"><span class="status-dot"></span>Todo</div>
-            <div class="legend-item"><span class="status-dot in_progress"></span>In progress</div>
-            <div class="legend-item"><span class="status-dot done"></span>Done</div>
-            <div class="legend-item"><span class="status-dot overdue"></span>Overdue</div>
-          </div>
-          <div class="panel-list" id="panelList"></div>
+        <aside class="detail-panel" aria-label="Today overview and selected day task details">
+          <section class="today-command" aria-labelledby="todayCommandTitle">
+            <div class="today-command-topline">
+              <div>
+                <div class="panel-kicker">Today Command Center</div>
+                <h2 class="today-title" id="todayCommandTitle">Today Overview</h2>
+              </div>
+              <span class="today-date-pill" id="todayDatePill">Today</span>
+            </div>
+            <div class="today-metrics" aria-label="Today task summary">
+              <div class="metric-card">
+                <span class="metric-value" id="todayIncompleteCount">0</span>
+                <span class="metric-label">Incomplete</span>
+              </div>
+              <div class="metric-card overdue">
+                <span class="metric-value" id="todayOverdueCount">0</span>
+                <span class="metric-label">Overdue</span>
+              </div>
+              <div class="metric-card done">
+                <span class="metric-value" id="todayDoneCount">0</span>
+                <span class="metric-label">Done</span>
+              </div>
+              <div class="metric-card week" title="Monday-Sunday open tasks">
+                <span class="metric-value" id="weekOpenCount">0</span>
+                <span class="metric-label">This week open</span>
+                <span class="metric-hint">Mon-Sun open tasks</span>
+              </div>
+            </div>
+            <div class="today-command-actions">
+              <button class="button primary compact" id="commandTodayIncompleteButton" type="button">Show today incomplete</button>
+              <button class="button quiet compact" id="commandClearFiltersButton" type="button">Clear filters</button>
+            </div>
+          </section>
+          <section class="selected-details" aria-labelledby="selectedDetailsTitle">
+            <div class="panel-header">
+              <div class="panel-kicker">Selected Day Details</div>
+              <h2 class="panel-date" id="selectedDetailsTitle"><span id="panelDate">Friday, May 15, 2026</span></h2>
+              <p class="panel-summary" id="panelSummary">4 tasks scheduled</p>
+              <p class="panel-relation" id="panelRelation">Selected date is today.</p>
+              <p class="filter-summary" id="filterSummary">Showing: All tasks</p>
+            </div>
+            <div class="legend" aria-label="Task status legend">
+              <div class="legend-item"><span class="status-dot"></span>Todo</div>
+              <div class="legend-item"><span class="status-dot in_progress"></span>In progress</div>
+              <div class="legend-item"><span class="status-dot done"></span>Done</div>
+              <div class="legend-item"><span class="status-dot overdue"></span>Overdue</div>
+            </div>
+            <div class="panel-list" id="panelList"></div>
+          </section>
         </aside>
       </div>
     </main>
