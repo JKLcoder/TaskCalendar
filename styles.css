@@ -44,6 +44,16 @@ button {
   font: inherit;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .app {
   height: 100vh;
   min-height: 0;
@@ -190,32 +200,36 @@ button {
   box-shadow: none;
 }
 
-.filter-group {
+.status-select-field {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  flex: 0 0 auto;
+  width: 128px;
+  min-height: 34px;
+}
+
+.status-select-field select {
+  width: 100%;
   min-height: 34px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.62);
-  padding: 3px;
-}
-
-.filter-button {
-  min-height: 26px;
-  border-radius: 6px;
-  background: transparent;
   color: var(--muted);
   cursor: pointer;
-  padding: 0 7px;
-  font-size: 11px;
+  padding: 0 30px 0 10px;
+  font-size: 12px;
   font-weight: 760;
+  outline: none;
 }
 
-.filter-button:hover,
-.filter-button.active {
+.status-select-field select:hover {
   background: #ffffff;
   color: var(--accent);
+}
+
+.status-select-field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(35, 111, 98, 0.14);
 }
 
 .icon-button,
@@ -1066,7 +1080,7 @@ textarea:focus {
   }
 
   .search-field,
-  .filter-group,
+  .status-select-field,
   .search-tools,
   .focus-tools,
   .secondary-tools,
@@ -1083,11 +1097,6 @@ textarea:focus {
   .focus-tools,
   .secondary-tools {
     flex-wrap: wrap;
-  }
-
-  .filter-group {
-    justify-content: space-between;
-    overflow-x: auto;
   }
 
   .secondary-tools {

@@ -44,13 +44,16 @@
                   </svg>
                   <input id="taskSearchInput" type="search" placeholder="Search tasks" autocomplete="off" />
                 </label>
-                <div class="filter-group" id="statusFilterGroup" aria-label="Filter tasks by status">
-                  <button class="filter-button active" type="button" data-status-filter="all">All</button>
-                  <button class="filter-button" type="button" data-status-filter="todo">Todo</button>
-                  <button class="filter-button" type="button" data-status-filter="in_progress">In progress</button>
-                  <button class="filter-button" type="button" data-status-filter="done">Done</button>
-                  <button class="filter-button" type="button" data-status-filter="overdue">Overdue</button>
-                </div>
+                <label class="status-select-field" for="statusFilterSelect">
+                  <span class="visually-hidden">Filter tasks by status</span>
+                  <select id="statusFilterSelect" aria-label="Filter tasks by status">
+                    <option value="all">All</option>
+                    <option value="todo">Todo</option>
+                    <option value="in_progress">In progress</option>
+                    <option value="done">Done</option>
+                    <option value="overdue">Overdue</option>
+                  </select>
+                </label>
                 <button class="button quiet" id="clearFiltersButton" type="button" disabled>Clear filters</button>
               </div>
               <div class="tool-group focus-tools">

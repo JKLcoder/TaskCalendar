@@ -44,7 +44,7 @@
   const deleteTaskButton = document.getElementById("deleteTaskButton");
   const importFileInput = document.getElementById("importFileInput");
   const taskSearchInput = document.getElementById("taskSearchInput");
-  const statusFilterGroup = document.getElementById("statusFilterGroup");
+  const statusFilterSelect = document.getElementById("statusFilterSelect");
   const todayIncompleteButton = document.getElementById("todayIncompleteButton");
   const clearFiltersButton = document.getElementById("clearFiltersButton");
   const resetDemoButton = document.getElementById("resetDemoButton");
@@ -359,12 +359,10 @@
 
   function updateFilterControls() {
     taskSearchInput.value = filters.query;
+    statusFilterSelect.value = filters.status;
     todayIncompleteButton.classList.toggle("active", filters.todayIncomplete);
     clearFiltersButton.disabled = !hasActiveFilters();
     filterSummary.textContent = getFilterSummary();
-    statusFilterGroup.querySelectorAll("[data-status-filter]").forEach((button) => {
-      button.classList.toggle("active", button.dataset.statusFilter === filters.status && !filters.todayIncomplete);
-    });
   }
 
   function getFilterSummary() {
@@ -620,10 +618,8 @@
     filters.todayIncomplete = false;
     renderAll();
   });
-  statusFilterGroup.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-status-filter]");
-    if (!button) return;
-    filters.status = button.dataset.statusFilter;
+  statusFilterSelect.addEventListener("change", () => {
+    filters.status = statusFilterSelect.value;
     filters.todayIncomplete = false;
     renderAll();
   });
