@@ -1,17 +1,17 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.2.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.3.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
 - [ ] Run `npm install`.
 - [ ] Run `npm audit` and confirm 0 vulnerabilities.
-- [ ] Run `node --check main.js app.js storage.js`.
+- [ ] Run `node --check main.js app.js storage.js preload.js`.
 - [ ] Run `npm start` and confirm the desktop app launches.
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.2.0-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.3.0-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -26,6 +26,13 @@ Use this checklist for the v0.2.0 local testing baseline. Mark each item after t
 - [ ] Confirm today and selected date are visually distinguishable.
 - [ ] Confirm the compact desktop layout uses the workspace width without excessive side whitespace.
 - [ ] Confirm the toolbar is compact on normal desktop widths and wraps acceptably on narrow widths.
+- [ ] Confirm the app shell uses a fixed-height desktop work area.
+- [ ] Confirm the whole page/body is not the main scroll container in normal desktop use.
+- [ ] Confirm the calendar and right panel align vertically.
+- [ ] Confirm the right panel scrolls independently when details overflow.
+- [ ] Confirm calendar date numbers remain anchored top-left.
+- [ ] Confirm calendar tasks stack downward below the date number.
+- [ ] Confirm the right panel layout remains compact and readable.
 
 ## Today-First Experience
 
@@ -67,11 +74,11 @@ Use this checklist for the v0.2.0 local testing baseline. Mark each item after t
 - [ ] Search by task title.
 - [ ] Search by description.
 - [ ] Search by assignee/tag.
-- [ ] Use the All status filter.
-- [ ] Use the Todo status filter.
-- [ ] Use the In progress status filter.
-- [ ] Use the Done status filter.
-- [ ] Use the Overdue status filter and confirm overdue is calculated dynamically.
+- [ ] Use the status select to choose All.
+- [ ] Use the status select to choose Todo.
+- [ ] Use the status select to choose In progress.
+- [ ] Use the status select to choose Done.
+- [ ] Use the status select to choose Overdue and confirm overdue is calculated dynamically.
 - [ ] Confirm empty states appear when no tasks match current filters.
 
 ## Import, Export, And Demo Data
@@ -124,7 +131,7 @@ Use this checklist for the v0.2.0 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Extract `dist/Task Calendar-0.2.0-portable-x64.zip` to a normal folder.
+- [ ] Extract `dist/Task Calendar-0.3.0-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.
