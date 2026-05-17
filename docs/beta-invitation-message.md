@@ -12,7 +12,7 @@ If you are willing, please try it for 3 days and tell me whether it actually hel
 
 Download: `[DOWNLOAD LINK]`
 
-Feedback: `[FEEDBACK LINK]`
+Feedback: `https://wj.qq.com/s2/26709573/338b/`
 
 Current note: this is a beta/local prototype. It is unsigned, has a placeholder icon, and is not production-ready.
 
@@ -41,6 +41,6 @@ Please try it for about 3 days. I am especially interested in:
 
 Download: `[DOWNLOAD LINK]`
 
-Feedback: `[FEEDBACK LINK]`
+Feedback: `https://wj.qq.com/s2/26709573/338b/`
 
 Important: this is a beta/local prototype. It is unsigned, has a placeholder icon, has no cloud sync, no reminders, and no installer yet. Please export a backup if you enter anything important.

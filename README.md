@@ -82,7 +82,13 @@ Restore from JSON is a full local data replacement.
 
 ## Feedback
 
-Feedback link placeholder: add public form, GitHub discussion, or issue link before inviting external beta users.
+Submit beta feedback:
+
+```text
+https://wj.qq.com/s2/26709573/338b/
+```
+
+For technical bug reports, use GitHub Issues when enabled by the project owner.
 
 Useful feedback topics:
 
@@ -95,6 +101,10 @@ See [feedback guide](docs/feedback-guide.md) for the full beta question list.
 
 ## Documentation
 
+- [Beta landing page](docs/beta-landing.md)
+- [Feedback funnel](docs/feedback-funnel.md)
+- [Community post templates](docs/community-post-templates.md)
+- [Feedback analysis template](docs/feedback-analysis-template.md)
 - [Product positioning](docs/product-positioning.md)
 - [Beta test guide](docs/beta-test-guide.md)
 - [Beta release notes](docs/beta-release-notes.md)

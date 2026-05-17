@@ -87,7 +87,7 @@ Use this checklist before sharing a beta ZIP with external testers.
 - [ ] README download instructions are correct.
 - [ ] Beta release notes are ready.
 - [ ] Beta invitation message has a real download link or placeholder clearly marked.
-- [ ] Feedback form has a real feedback link or placeholder clearly marked.
+- [ ] Feedback form points to `https://wj.qq.com/s2/26709573/338b/`.
 - [ ] Known limitations are visible to testers.
 - [ ] Screenshots are sanitized and do not show personal data.
 

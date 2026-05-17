@@ -77,7 +77,13 @@ You can also use the regular Import Tasks flow for task JSON import.
 
 ## Report Feedback
 
-Use the feedback link shared by the project owner, or open a GitHub issue/discussion when enabled.
+Submit beta feedback:
+
+```text
+https://wj.qq.com/s2/26709573/338b/
+```
+
+For technical bug reports, open a GitHub Issue or Discussion when enabled by the project owner.
 
 When reporting feedback, include:
 

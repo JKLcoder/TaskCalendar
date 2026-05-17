@@ -75,7 +75,11 @@ Use `File > Data & Settings...` to view the data path, open the data location, e
 
 ## Feedback
 
-Feedback link: `[FEEDBACK LINK]`
+Submit beta feedback:
+
+```text
+https://wj.qq.com/s2/26709573/338b/
+```
 
 Useful feedback:
 

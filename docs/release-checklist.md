@@ -35,7 +35,7 @@ Use this checklist before calling v0.7.0 a frozen local testing baseline.
 - [ ] Confirm invalid restore JSON and canceled restore do not mutate current data or restart.
 - [ ] Confirm README links to beta and commercial validation documents.
 - [ ] Confirm beta release notes are ready for external testers.
-- [ ] Confirm beta invitation message includes download and feedback placeholders.
+- [ ] Confirm beta invitation message includes download instructions and the live feedback questionnaire link.
 - [ ] Confirm beta feedback form includes rating and open questions.
 - [ ] Confirm beta distribution checklist includes build, packaging, native menu, shortcut, and feedback link checks.
 - [ ] Confirm commercial validation docs do not claim production readiness, payment, subscription, account, cloud sync, or commercial availability.
@@ -77,7 +77,7 @@ Use this checklist before calling v0.7.0 a frozen local testing baseline.
 - [ ] Manually spot-check Restore from JSON native open dialog, replacement confirmation, successful restart, invalid JSON rejection, and cancel behavior.
 - [ ] Confirm README download instructions match the v0.7.0 portable ZIP.
 - [ ] Confirm beta docs links work in the packaged/release materials.
-- [ ] Confirm feedback link placeholders are clearly marked before external beta sharing.
+- [ ] Confirm beta feedback links point to `https://wj.qq.com/s2/26709573/338b/` before external beta sharing.
 - [ ] Confirm Full Today Details appears when the selected day is today.
 - [ ] Confirm fixed shell layout, calendar/right-panel vertical alignment, top-left date numbers, status select filtering, and compact right panel density.
 - [ ] Confirm CRUD, mark done, search/filter, Today incomplete, Clear filters, import/export, reset demo data, and localStorage persistence.

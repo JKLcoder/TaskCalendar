@@ -64,3 +64,9 @@ Exports schema v1 JSON backups and restores valid schema v1 JSON data. Restore f
 The most useful beta feedback is not "it is nice." The useful question is:
 
 Does Task Calendar make your workday clearer enough that you would keep using it?
+
+Submit beta feedback:
+
+```text
+https://wj.qq.com/s2/26709573/338b/
+```

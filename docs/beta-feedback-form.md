@@ -2,6 +2,12 @@
 
 Copy these questions into a form tool. Mix rating questions with short open questions so beta testers can finish quickly.
 
+Live beta feedback questionnaire:
+
+```text
+https://wj.qq.com/s2/26709573/338b/
+```
+
 ## About You
 
 1. What do you currently use to manage daily tasks?
