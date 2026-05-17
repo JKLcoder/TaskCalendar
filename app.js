@@ -35,6 +35,7 @@
   const panelRelation = document.getElementById("panelRelation");
   const panelList = document.getElementById("panelList");
   const taskModal = document.getElementById("taskModal");
+  const dataSettingsModal = document.getElementById("dataSettingsModal");
   const taskForm = document.getElementById("taskForm");
   const taskId = document.getElementById("taskId");
   const taskTitle = document.getElementById("taskTitle");
@@ -66,6 +67,13 @@
   const endOfDayCompletionText = document.getElementById("endOfDayCompletionText");
   const endOfDayMessage = document.getElementById("endOfDayMessage");
   const endOfDayRemainingButton = document.getElementById("endOfDayRemainingButton");
+  const dataSettingsVersion = document.getElementById("dataSettingsVersion");
+  const dataSettingsLocation = document.getElementById("dataSettingsLocation");
+  const dataSettingsStorageType = document.getElementById("dataSettingsStorageType");
+  const dataSettingsTaskCount = document.getElementById("dataSettingsTaskCount");
+  const openDataLocationButton = document.getElementById("openDataLocationButton");
+  const backupDataButton = document.getElementById("backupDataButton");
+  const restoreDataButton = document.getElementById("restoreDataButton");
   const commandTodayIncompleteButton = document.getElementById("commandTodayIncompleteButton");
   const commandClearFiltersButton = document.getElementById("commandClearFiltersButton");
   const toast = document.getElementById("toast");
@@ -83,6 +91,7 @@
   };
   let toastTimer = null;
   const EMPTY_IMPORT_RESTART_NOTICE_KEY = "task-calendar.emptyImportRestartNotice";
+  const DATA_RESTORE_RESTART_NOTICE_KEY = "task-calendar.dataRestoreRestartNotice";
 
   function setLocalFlag(key) {
     try {
@@ -584,6 +593,47 @@
     taskForm.reset();
   }
 
+  function getExportFileName() {
+    return `task-calendar-backup-${dateToISO(new Date())}.json`;
+  }
+
+  async function updateDataSettingsContent() {
+    dataSettingsTaskCount.textContent = String(tasks.length);
+
+    if (!window.taskCalendarDesktop?.getDataInfo) {
+      dataSettingsVersion.textContent = "Browser preview";
+      dataSettingsLocation.textContent = "%APPDATA%\\Task Calendar\\";
+      dataSettingsStorageType.textContent = "Electron localStorage";
+      return;
+    }
+
+    try {
+      const info = await window.taskCalendarDesktop.getDataInfo();
+      dataSettingsVersion.textContent = info?.appVersion || "Unknown";
+      dataSettingsLocation.textContent = info?.userDataPath || "%APPDATA%\\Task Calendar\\";
+      dataSettingsStorageType.textContent = info?.storageType || "Electron localStorage";
+    } catch {
+      dataSettingsVersion.textContent = "Unknown";
+      dataSettingsLocation.textContent = "%APPDATA%\\Task Calendar\\";
+      dataSettingsStorageType.textContent = "Electron localStorage";
+    }
+  }
+
+  function openDataSettings() {
+    updateDataSettingsContent();
+    dataSettingsModal.classList.add("open");
+    dataSettingsModal.setAttribute("aria-hidden", "false");
+    openDataLocationButton.focus();
+  }
+
+  function closeDataSettings() {
+    if (dataSettingsModal.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
+    dataSettingsModal.classList.remove("open");
+    dataSettingsModal.setAttribute("aria-hidden", "true");
+  }
+
   function persistTasks(nextTasks) {
     tasks = saveTasks(nextTasks);
   }
@@ -628,6 +678,27 @@
 
     consumeLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY);
     enterEmptyImportFallback("Empty task list imported.");
+  }
+
+  function restartAfterDataRestore() {
+    if (document.activeElement && document.activeElement !== document.body) {
+      document.activeElement.blur();
+    }
+    importFileInput.value = "";
+    importFromFirstRun = false;
+    filters = { query: "", status: "all", todayIncomplete: false };
+    setLocalFlag(DATA_RESTORE_RESTART_NOTICE_KEY);
+
+    if (window.taskCalendarDesktop?.restartAfterDataRestore) {
+      window.taskCalendarDesktop.restartAfterDataRestore().catch(() => {
+        consumeLocalFlag(DATA_RESTORE_RESTART_NOTICE_KEY);
+        finishFirstRun("Data restored.");
+      });
+      return;
+    }
+
+    consumeLocalFlag(DATA_RESTORE_RESTART_NOTICE_KEY);
+    finishFirstRun("Data restored.");
   }
 
   function startBlankCalendar() {
@@ -701,26 +772,51 @@
     renderAll();
   }
 
-  function exportTasks() {
-    const blob = new Blob([buildExport(tasks)], { type: "application/json" });
+  function downloadExport(text, fileName) {
+    const blob = new Blob([text], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `task-calendar-export-${dateToISO(new Date())}.json`;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     link.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function exportTasks() {
+    const text = buildExport(tasks);
+    const suggestedName = getExportFileName();
+
+    if (window.taskCalendarDesktop?.saveExportJson) {
+      try {
+        const result = await window.taskCalendarDesktop.saveExportJson({ suggestedName, text });
+        if (result?.canceled) return;
+        showToast("Tasks exported.");
+        return;
+      } catch (error) {
+        showValidationError(error.message || "Unable to export tasks.");
+        return;
+      }
+    }
+
+    downloadExport(text, suggestedName);
     showToast("Tasks exported.");
   }
 
   function importTasksFromText(text, options = {}) {
     const fromFirstRun = Boolean(options.fromFirstRun);
+    const restartAfterRestore = Boolean(options.restartAfterRestore);
 
     try {
       const importedTasks = parseImport(text);
       if (!fromFirstRun && !confirm("Importing will replace your current local tasks. Continue?")) return;
       persistTasks(importedTasks);
+
+      if (restartAfterRestore) {
+        restartAfterDataRestore();
+        return;
+      }
 
       if (!tasks.length) {
         restartAfterEmptyImport();
@@ -758,6 +854,35 @@
   function openImportPicker(fromFirstRun = false) {
     importFromFirstRun = fromFirstRun;
     importFileInput.click();
+  }
+
+  function restoreFromDataSettings() {
+    closeDataSettings();
+    if (window.taskCalendarDesktop?.openImportDialog) {
+      window.taskCalendarDesktop.openImportDialog("dataSettingsRestore").catch((error) => {
+        showValidationError(error.message || "Unable to open import dialog.");
+      });
+      return;
+    }
+    openImportPicker(firstRunActive);
+  }
+
+  async function openDataLocation() {
+    if (!window.taskCalendarDesktop?.openDataLocation) {
+      showValidationError("Data location is only available in the desktop app.");
+      return;
+    }
+
+    try {
+      const errorMessage = await window.taskCalendarDesktop.openDataLocation();
+      if (errorMessage) {
+        showValidationError(errorMessage);
+        return;
+      }
+      showToast("Data location opened.");
+    } catch (error) {
+      showValidationError(error.message || "Unable to open data location.");
+    }
   }
 
   function clearFilters() {
@@ -820,16 +945,25 @@
   document.getElementById("exportButton").addEventListener("click", exportTasks);
   document.getElementById("importButton").addEventListener("click", () => openImportPicker(firstRunActive));
   resetDemoButton.addEventListener("click", resetDemoData);
+  openDataLocationButton.addEventListener("click", openDataLocation);
+  backupDataButton.addEventListener("click", exportTasks);
+  restoreDataButton.addEventListener("click", restoreFromDataSettings);
   importFileInput.addEventListener("change", () => importTasks(importFileInput.files[0], { fromFirstRun: importFromFirstRun }));
   document.getElementById("closeModalButton").addEventListener("click", closeTaskForm);
+  document.getElementById("closeDataSettingsButton").addEventListener("click", closeDataSettings);
   document.getElementById("cancelTaskButton").addEventListener("click", closeTaskForm);
   deleteTaskButton.addEventListener("click", deleteCurrentTask);
   taskForm.addEventListener("submit", upsertTask);
   taskModal.addEventListener("click", (event) => {
     if (event.target === taskModal) closeTaskForm();
   });
+  dataSettingsModal.addEventListener("click", (event) => {
+    if (event.target === dataSettingsModal) closeDataSettings();
+  });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && taskModal.classList.contains("open")) closeTaskForm();
+    if (event.key !== "Escape") return;
+    if (taskModal.classList.contains("open")) closeTaskForm();
+    if (dataSettingsModal.classList.contains("open")) closeDataSettings();
   });
   panelList.addEventListener("click", (event) => {
     const doneButton = event.target.closest("[data-action='done']");
@@ -877,13 +1011,19 @@
           if (!firstRunActive) openTaskForm();
         },
         exportTasks,
-        resetDemoData
+        resetDemoData,
+        dataSettings: openDataSettings
       };
-      actions[action]?.();
+      Promise.resolve(actions[action]?.()).catch((error) => {
+        showValidationError(error.message || "Action failed.");
+      });
     });
 
     window.taskCalendarDesktop.onImportTasksText((payload) => {
-      importTasksFromText(payload.text, { fromFirstRun: firstRunActive });
+      importTasksFromText(payload.text, {
+        fromFirstRun: firstRunActive,
+        restartAfterRestore: payload.source === "dataSettingsRestore"
+      });
     });
   }
 
@@ -896,12 +1036,16 @@
     getEndOfDayMetrics,
     getTodayActionItems: () => getTodayActionItems().map((task) => ({ ...task })),
     getTasks: () => tasks.map((task) => ({ ...task })),
+    openDataSettings,
     renderAll
   };
 
   renderAll();
   if (consumeLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY)) {
     showToast("Empty task list imported.");
+  }
+  if (consumeLocalFlag(DATA_RESTORE_RESTART_NOTICE_KEY)) {
+    showToast("Data restored.");
   }
   const loadNotice = getLastLoadNotice();
   if (loadNotice) {

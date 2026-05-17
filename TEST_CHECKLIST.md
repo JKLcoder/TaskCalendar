@@ -112,6 +112,7 @@ Use this checklist for the v0.5.0 local testing baseline. Mark each item after t
 ## Import, Export, And Demo Data
 
 - [ ] Export tasks and confirm a JSON file downloads.
+- [ ] In Electron, confirm export uses a native save dialog and writes valid schema v1 JSON.
 - [ ] Import a valid JSON task file.
 - [ ] Confirm import asks for confirmation before replacing data outside first-run.
 - [ ] Confirm imported tasks render after import.
@@ -120,6 +121,23 @@ Use this checklist for the v0.5.0 local testing baseline. Mark each item after t
 - [ ] Use Reset demo data.
 - [ ] Confirm reset asks for confirmation.
 - [ ] Confirm seed demo tasks return after reset.
+
+## Local Data And Settings
+
+- [ ] File > Data & Settings opens the Data & Settings dialog.
+- [ ] Confirm App version is shown.
+- [ ] Confirm Data location shows the resolved Electron userData path, expected on Windows under `%APPDATA%\Task Calendar\`.
+- [ ] Confirm Storage type shows `Electron localStorage`.
+- [ ] Confirm the portable data note says data is not stored inside the extracted app folder.
+- [ ] Confirm Current tasks matches the in-memory task count.
+- [ ] Confirm Open data location opens the Electron userData folder.
+- [ ] Confirm Export backup writes valid schema v1 JSON.
+- [ ] Confirm Restore from JSON imports valid data through the existing schema v1 validation flow.
+- [ ] Confirm Restore from JSON keeps replacement confirmation before replacing current tasks.
+- [ ] Confirm successful Restore from JSON restarts the app, shows `Data restored.`, and New Task is immediately editable after restart.
+- [ ] Confirm invalid restore JSON is rejected without crashing.
+- [ ] Confirm canceling file selection or replacement confirmation does not restart the app.
+- [ ] Confirm empty JSON restore still uses empty import restart recovery.
 
 ## Persistence
 
