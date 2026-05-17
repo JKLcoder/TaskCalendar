@@ -97,6 +97,10 @@ See [feedback guide](docs/feedback-guide.md) for the full beta question list.
 
 - [Product positioning](docs/product-positioning.md)
 - [Beta test guide](docs/beta-test-guide.md)
+- [Beta release notes](docs/beta-release-notes.md)
+- [Beta invitation message](docs/beta-invitation-message.md)
+- [Beta feedback form](docs/beta-feedback-form.md)
+- [Beta distribution checklist](docs/beta-distribution-checklist.md)
 - [Feedback guide](docs/feedback-guide.md)
 - [Commercialization hypothesis](docs/commercialization-hypothesis.md)
 - [Screenshots checklist](docs/screenshots-checklist.md)
