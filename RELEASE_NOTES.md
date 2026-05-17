@@ -1,5 +1,62 @@
 # Release Notes
 
+## v0.4.0 - Today Execution Loop
+
+Task Calendar v0.4.0 introduces the first Today Execution Loop release. The app now helps users move from "what is on my calendar?" to "what should I do next?" without changing storage schema v1, adding project-management fields, or relaxing Electron security settings.
+
+### Major Changes
+
+- Added Today Action List below Today Command Center and above Selected Day Details.
+- Today Action List shows overdue unfinished tasks and today unfinished tasks.
+- Done tasks are excluded from the action queue by default.
+- The action queue shows at most 5 visible items and uses a compact `+N more actions` note when more actions exist.
+- Action items support Done, Edit, and Jump.
+- Done marks the task complete and removes it from Today Action List.
+- Edit opens the existing task edit modal.
+- Jump switches the calendar to the task date without mutating task data.
+- Today Action List is computed from all unfinished tasks and remains independent from toolbar search/status filters.
+- Selected-day details are labeled `Full Today Details` when the selected date is today.
+- Done is styled as the primary action while Edit and Jump remain secondary actions.
+
+### Preserved Behavior
+
+- Task create, edit, delete, and mark done.
+- Dynamic overdue visual state for unfinished tasks.
+- Search by title, description, and assignee/tag.
+- Status filters for All, Todo, In progress, Done, and Overdue.
+- Today incomplete quick filter and Clear filters.
+- JSON import/export, including empty JSON import restart recovery.
+- Reset demo data.
+- First-run Start blank, Use demo data, and Import tasks.
+- Today Command Center and Week Pressure.
+- `localStorage` schema v1 compatibility.
+- Native Electron menu and shortcuts.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.4.0-portable-x64.zip`
+- Builds are unsigned local test artifacts and are not production releases.
+
+### Security Baseline
+
+- `nodeIntegration` remains disabled.
+- `contextIsolation` remains enabled.
+- `sandbox` remains enabled.
+- Renderer cannot access `require`, `process`, or `window.process`.
+- A restrictive local-only Content Security Policy remains configured.
+- No backend service, remote sync, database, account system, or cloud access is included.
+
+### Recommended Testing Notes
+
+- Verify Today Action List ordering, item cap, Done/Edit/Jump actions, and filter independence in `npm start`, `dist/win-unpacked/TaskCalendar.exe`, and an extracted portable ZIP.
+- Confirm Full Today Details appears when the selected date is today.
+- Confirm existing CRUD, import/export, first-run, Today Command Center, Week Pressure, localStorage persistence, native menus, shortcuts, renderer security, and CSP warning status remain unchanged.
+
 ## v0.3.2 - Data Trust Hotfix
 
 Task Calendar v0.3.2 is a focused Data Trust Hotfix for empty JSON import recovery. It does not add product features, change UI behavior beyond the recovery flow, change storage schema v1, or relax Electron security settings.

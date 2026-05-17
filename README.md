@@ -2,7 +2,7 @@
 
 Task Calendar is a local Electron desktop prototype for managing tasks on a month calendar board. It focuses on a Today-first workflow: open the app, see today's workload, understand this week's pressure, and manage tasks from a compact desktop calendar.
 
-This repository is preparing the v0.3.2 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
+This repository is preparing the v0.4.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
 
 ## Development Run
 
@@ -21,7 +21,7 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.3.2-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.4.0-portable-x64.zip`.
 - To run the portable build, extract the ZIP to a normal folder first, then launch `TaskCalendar.exe`.
 - Running the app directly from temporary folders may be unreliable in some Windows/Electron environments.
 
@@ -50,6 +50,19 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - `Ctrl/Cmd+Shift+I`: Toggle Developer Tools.
 - `F12`: Toggle Developer Tools.
 - `Ctrl/Cmd+Q`: Quit.
+
+## v0.4.0 Scope
+
+- Today Execution Loop release for moving from "what is today?" to "what should I do next?"
+- Added Today Action List below Today Command Center and above Selected Day Details.
+- Today Action List shows overdue unfinished tasks and today unfinished tasks.
+- Done tasks are excluded from the action queue by default.
+- The list shows at most 5 visible actions with a `+N more actions` note.
+- Action items support Done, Edit, and Jump without adding new task fields.
+- Today Action List is independent from toolbar search/status filters.
+- Selected-day details are labeled `Full Today Details` when the selected day is today.
+- Done is visually primary; Edit and Jump are secondary actions.
+- No task schema or Electron security setting changes are included.
 
 ## v0.3.2 Scope
 

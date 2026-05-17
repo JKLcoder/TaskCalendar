@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.3.2 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.4.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.3.2-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.4.0-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -42,6 +42,7 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 - [ ] Confirm Week Pressure appears beside the this-week-open metric.
 - [ ] Confirm Week Pressure changes when current-week tasks are created, completed, or become overdue.
 - [ ] Confirm Today Action List appears below Today Command Center and above Selected Day Details.
+- [ ] Confirm Today Action List shows overdue unfinished tasks and today unfinished tasks.
 - [ ] Confirm Today Action List shows overdue unfinished tasks before today unfinished tasks.
 - [ ] Confirm Today Action List excludes done tasks and caps visible actions at 5 with a `+N more actions` note.
 - [ ] Confirm Today Action List ignores toolbar search/status filters while calendar and Selected Day Details still honor them.
@@ -51,6 +52,7 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 - [ ] Confirm Today Action List shows `No urgent actions right now.` when no overdue or today incomplete tasks exist.
 - [ ] Confirm Today Action List visually treats Done as the primary action and Edit/Jump as secondary actions.
 - [ ] Confirm Today Action List remains compact and readable around a 1024x720 window.
+- [ ] Confirm Selected Day Details changes to `Full Today Details` when the selected date is today.
 - [ ] Confirm Show today incomplete selects today and filters unfinished today tasks.
 - [ ] Confirm Clear filters resets search, status filter, and Today incomplete mode.
 
@@ -149,11 +151,12 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Copy `dist/Task Calendar-0.3.2-portable-x64.zip` to a separate normal folder.
-- [ ] Extract `dist/Task Calendar-0.3.2-portable-x64.zip` to a normal folder.
+- [ ] Copy `dist/Task Calendar-0.4.0-portable-x64.zip` to a separate normal folder.
+- [ ] Extract `dist/Task Calendar-0.4.0-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.
+- [ ] Confirm Today Action List renders and supports Done, Edit, and Jump.
 - [ ] Confirm first-run flows work in a clean extracted-app profile.
 - [ ] Confirm empty JSON import restarts the extracted app and returns to a normal empty calendar state.
 - [ ] Choose Start blank, create a task, close/reopen the same extracted `TaskCalendar.exe`, and confirm the task persists.

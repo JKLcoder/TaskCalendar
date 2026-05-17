@@ -1,6 +1,6 @@
 # Known Limitations
 
-This document captures the known limitations for the v0.3.2 local testing baseline.
+This document captures the known limitations for the v0.4.0 local testing baseline.
 
 ## Distribution
 

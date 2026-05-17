@@ -1,6 +1,6 @@
 {
   "name": "calendar-task-board",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "private": true,
   "productName": "Task Calendar",
   "description": "Task Calendar local desktop task manager",
