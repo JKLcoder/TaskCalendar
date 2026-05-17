@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.4.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.5.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.4.0 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.4.0-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.5.0-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -53,10 +53,13 @@ Use this checklist for the v0.4.0 local testing baseline. Mark each item after t
 - [ ] Confirm Today Action List visually treats Done as the primary action and Edit/Jump as secondary actions.
 - [ ] Confirm Today Action List remains compact and readable around a 1024x720 window.
 - [ ] Confirm End-of-Day Review appears below Today Action List and above Selected Day Details.
-- [ ] Confirm End-of-Day Review shows done today, remaining today, and overdue today counts.
-- [ ] Confirm End-of-Day Review completion text follows `N of N done`.
+- [ ] Confirm End-of-Day Review Done today count is correct.
+- [ ] Confirm End-of-Day Review Remaining today count is correct.
+- [ ] Confirm End-of-Day Review Overdue today count is correct.
+- [ ] Confirm End-of-Day Review completion text follows `N of N done` and is correct for the current task set.
 - [ ] Confirm End-of-Day Review shows `Today is wrapped up.` when no today tasks remain open.
 - [ ] Confirm End-of-Day Review shows a concise remaining/overdue message when open today tasks exist.
+- [ ] Confirm View remaining today selects today and shows today incomplete tasks.
 - [ ] Confirm View remaining today reuses Today incomplete behavior without mutating task data.
 - [ ] Confirm creating, editing, marking done, importing, and Reset demo data update End-of-Day Review counts.
 - [ ] Confirm Selected Day Details changes to `Full Today Details` when the selected date is today.
@@ -158,12 +161,13 @@ Use this checklist for the v0.4.0 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Copy `dist/Task Calendar-0.4.0-portable-x64.zip` to a separate normal folder.
-- [ ] Extract `dist/Task Calendar-0.4.0-portable-x64.zip` to a normal folder.
+- [ ] Copy `dist/Task Calendar-0.5.0-portable-x64.zip` to a separate normal folder.
+- [ ] Extract `dist/Task Calendar-0.5.0-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.
 - [ ] Confirm Today Action List renders and supports Done, Edit, and Jump.
+- [ ] Confirm End-of-Day Review renders and View remaining today works.
 - [ ] Confirm first-run flows work in a clean extracted-app profile.
 - [ ] Confirm empty JSON import restarts the extracted app and returns to a normal empty calendar state.
 - [ ] Choose Start blank, create a task, close/reopen the same extracted `TaskCalendar.exe`, and confirm the task persists.

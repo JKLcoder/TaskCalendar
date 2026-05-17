@@ -1,13 +1,13 @@
 # Release Checklist
 
-Use this checklist before calling v0.4.0 a frozen local testing baseline.
+Use this checklist before calling v0.5.0 a frozen local testing baseline.
 
 ## Install And Static Validation
 
 - [ ] Run `npm install`.
 - [ ] Run `npm audit` and confirm 0 vulnerabilities.
 - [ ] Run `node --check main.js app.js storage.js preload.js`.
-- [ ] Confirm `package.json` version is `0.4.0`.
+- [ ] Confirm `package.json` version is `0.5.0`.
 - [ ] Confirm `productName` is `Task Calendar`.
 - [ ] Confirm `appId` is `com.local.taskcalendar`.
 - [ ] Confirm storage schema remains v1.
@@ -23,6 +23,10 @@ Use this checklist before calling v0.4.0 a frozen local testing baseline.
 - [ ] Confirm Today Action List shows overdue unfinished and today unfinished tasks.
 - [ ] Confirm Today Action List Done, Edit, and Jump actions work.
 - [ ] Confirm Today Action List remains independent from toolbar search/status filters.
+- [ ] Confirm End-of-Day Review renders below Today Action List and above Selected Day Details.
+- [ ] Confirm End-of-Day Review done, remaining, overdue, and completion text are correct.
+- [ ] Confirm View remaining today selects today, shows today incomplete tasks, and does not mutate task data.
+- [ ] Confirm End-of-Day Review counts update after create, edit, mark done, reset, and import.
 - [ ] Confirm first-run panel appears with a clean profile.
 - [ ] Confirm Start blank plus a saved task persists after close/reopen.
 - [ ] Confirm empty JSON import saves a valid empty payload, restarts the app, and returns to the normal empty calendar state.
@@ -38,8 +42,8 @@ Use this checklist before calling v0.4.0 a frozen local testing baseline.
 - [ ] Run `npm run pack`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
 - [ ] Run `npm run dist:portable`.
-- [ ] Confirm `dist/Task Calendar-0.4.0-portable-x64.zip` exists.
-- [ ] Confirm artifact names include `0.4.0`.
+- [ ] Confirm `dist/Task Calendar-0.5.0-portable-x64.zip` exists.
+- [ ] Confirm artifact names include `0.5.0`.
 
 ## Packaged App Validation
 
@@ -54,6 +58,7 @@ Use this checklist before calling v0.4.0 a frozen local testing baseline.
 - [ ] Confirm first-run Start blank, Use demo data, and Import tasks flows.
 - [ ] Confirm Today Command Center and Week Pressure.
 - [ ] Confirm Today Action List ordering, item cap, Done/Edit/Jump actions, and filter independence.
+- [ ] Confirm End-of-Day Review counts, completion copy, state message, and View remaining today action.
 - [ ] Confirm Full Today Details appears when the selected day is today.
 - [ ] Confirm fixed shell layout, calendar/right-panel vertical alignment, top-left date numbers, status select filtering, and compact right panel density.
 - [ ] Confirm CRUD, mark done, search/filter, Today incomplete, Clear filters, import/export, reset demo data, and localStorage persistence.
@@ -79,4 +84,4 @@ Use this checklist before calling v0.4.0 a frozen local testing baseline.
 - [ ] Confirm known limitations are documented.
 - [ ] Confirm empty JSON import restart recovery is documented.
 - [ ] Confirm no app behavior, storage schema, or Electron security settings changed during release preparation.
-- [ ] Do not create the `v0.4.0` Git tag until review approves the baseline.
+- [ ] Do not create the `v0.5.0` Git tag until review approves the baseline.

@@ -1,5 +1,58 @@
 # Release Notes
 
+## v0.5.0 - End-of-Day Review
+
+Task Calendar v0.5.0 adds a lightweight End-of-Day Review so the Today-first workflow can close the loop: see what was done, what remains, and what needs attention before the day ends. It does not add charts, AI summaries, reminder systems, or storage schema changes.
+
+### Major Changes
+
+- Added End-of-Day Review / Wrap Today below Today Action List and above Selected Day Details.
+- The review shows Done today, Remaining today, and Overdue today counts.
+- The review shows compact completion text such as `3 of 7 done`.
+- Added View remaining today as the single primary review action.
+- View remaining today reuses the existing Today incomplete behavior.
+- Review values are computed from existing task data and are not persisted.
+- Task schema remains v1.
+
+### Preserved Behavior
+
+- Today Command Center and Week Pressure.
+- Today Action List with Done, Edit, and Jump.
+- Task create, edit, delete, and mark done.
+- Search by title, description, and assignee/tag.
+- Status filters for All, Todo, In progress, Done, and Overdue.
+- Today incomplete quick filter and Clear filters.
+- JSON import/export, including empty JSON import restart recovery.
+- Reset demo data.
+- First-run Start blank, Use demo data, and Import tasks.
+- `localStorage` schema v1 compatibility.
+- Native Electron menu and shortcuts.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.5.0-portable-x64.zip`
+- Builds are unsigned local test artifacts and are not production releases.
+
+### Security Baseline
+
+- `nodeIntegration` remains disabled.
+- `contextIsolation` remains enabled.
+- `sandbox` remains enabled.
+- Renderer cannot access `require`, `process`, or `window.process`.
+- A restrictive local-only Content Security Policy remains configured.
+- No backend service, remote sync, database, account system, or cloud access is included.
+
+### Recommended Testing Notes
+
+- Verify End-of-Day Review counts, completion copy, wrapped-up/remaining/overdue states, and View remaining today in `npm start`, `dist/win-unpacked/TaskCalendar.exe`, and an extracted portable ZIP.
+- Confirm Today Action List Done/Edit/Jump still works and remains above End-of-Day Review.
+- Confirm existing CRUD, import/export, first-run, Today Command Center, Week Pressure, localStorage persistence, native menus, shortcuts, renderer security, and CSP warning status remain unchanged.
+
 ## v0.4.0 - Today Execution Loop
 
 Task Calendar v0.4.0 introduces the first Today Execution Loop release. The app now helps users move from "what is on my calendar?" to "what should I do next?" without changing storage schema v1, adding project-management fields, or relaxing Electron security settings.

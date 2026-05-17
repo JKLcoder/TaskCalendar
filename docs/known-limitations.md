@@ -1,6 +1,6 @@
 # Known Limitations
 
-This document captures the known limitations for the v0.4.0 local testing baseline.
+This document captures the known limitations for the v0.5.0 local testing baseline.
 
 ## Distribution
 
@@ -15,6 +15,7 @@ This document captures the known limitations for the v0.4.0 local testing baseli
 
 - The app icon is a placeholder.
 - Week Pressure is a lightweight heuristic, not a full workload analytics system.
+- End-of-Day Review is a lightweight daily wrap-up, not a dashboard, charting system, or AI summary.
 - There is no cloud sync.
 - There is no backend service.
 - There is no database.

@@ -2,7 +2,7 @@
 
 Task Calendar is a local Electron desktop prototype for managing tasks on a month calendar board. It focuses on a Today-first workflow: open the app, see today's workload, understand this week's pressure, and manage tasks from a compact desktop calendar.
 
-This repository is preparing the v0.4.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
+This repository is preparing the v0.5.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
 
 ## Development Run
 
@@ -21,7 +21,7 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.4.0-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.5.0-portable-x64.zip`.
 - To run the portable build, extract the ZIP to a normal folder first, then launch `TaskCalendar.exe`.
 - Running the app directly from temporary folders may be unreliable in some Windows/Electron environments.
 
@@ -50,6 +50,17 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - `Ctrl/Cmd+Shift+I`: Toggle Developer Tools.
 - `F12`: Toggle Developer Tools.
 - `Ctrl/Cmd+Q`: Quit.
+
+## v0.5.0 Scope
+
+- End-of-Day Review release for moving from "what should I do next?" to "how do I wrap today?"
+- Added End-of-Day Review / Wrap Today below Today Action List and above Selected Day Details.
+- The review shows Done today, Remaining today, and Overdue today counts.
+- The review shows compact completion copy such as `3 of 7 done`.
+- View remaining today reuses the existing Today incomplete behavior.
+- Review values are computed from existing task data and are not persisted.
+- No task schema or Electron security setting changes are included.
+- No dashboard, chart, AI summary, reminder, move-to-tomorrow, or batch reschedule workflow is included.
 
 ## v0.4.0 Scope
 
