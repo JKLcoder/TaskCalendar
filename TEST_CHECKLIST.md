@@ -56,8 +56,8 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 - [ ] Confirm demo tasks load and Today Command Center remains visible.
 - [ ] Reset to clean storage and choose Import tasks.
 - [ ] Confirm valid imported tasks load and render.
-- [ ] Import `{ "version": 1, "tasks": [] }` and confirm the known New Task modal editability issue is still documented.
-- [ ] If the empty-import modal issue appears, restart the app and confirm New Task becomes editable again.
+- [ ] Import `{ "version": 1, "tasks": [] }`, click New Task without restarting, and confirm all task form fields are editable.
+- [ ] After empty JSON import, create a minimal task, close/reopen, and confirm the task persists without first-run returning.
 - [ ] Confirm corrupted localStorage is backed up before fallback and does not crash the app.
 
 ## Task CRUD

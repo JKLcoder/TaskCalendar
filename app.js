@@ -448,6 +448,19 @@
     showToast(message);
   }
 
+  function enterEmptyTaskState(message) {
+    if (document.activeElement && document.activeElement !== document.body) {
+      document.activeElement.blur();
+    }
+    importFileInput.value = "";
+    importFromFirstRun = false;
+    filters = { query: "", status: "all", todayIncomplete: false };
+    focusToday();
+    firstRunActive = false;
+    renderAll();
+    showToast(message);
+  }
+
   function startBlankCalendar() {
     persistTasks([]);
     finishFirstRun("Blank calendar started.");
@@ -532,15 +545,18 @@
       if (!fromFirstRun && !confirm("Importing will replace your current local tasks. Continue?")) return;
       persistTasks(importedTasks);
 
-      if (fromFirstRun) {
+      if (!tasks.length) {
+        enterEmptyTaskState("Tasks imported.");
+        return;
+      }
+
+      if (fromFirstRun || firstRunActive) {
         finishFirstRun("Tasks imported.");
         return;
       }
 
-      if (tasks.length) {
-        selectedDate = parseISODate(tasks[0].date);
-        currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
-      }
+      selectedDate = parseISODate(tasks[0].date);
+      currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
 
       renderAll();
       showToast("Tasks imported.");
