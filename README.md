@@ -2,7 +2,7 @@
 
 Task Calendar is a local Electron desktop prototype for managing tasks on a month calendar board. It focuses on a Today-first workflow: open the app, see today's workload, understand this week's pressure, and manage tasks from a compact desktop calendar.
 
-This repository is preparing the v0.3.1 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
+This repository is preparing the v0.3.2 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
 
 ## Development Run
 
@@ -21,7 +21,7 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.3.1-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.3.2-portable-x64.zip`.
 - To run the portable build, extract the ZIP to a normal folder first, then launch `TaskCalendar.exe`.
 - Running the app directly from temporary folders may be unreliable in some Windows/Electron environments.
 
@@ -51,13 +51,21 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - `F12`: Toggle Developer Tools.
 - `Ctrl/Cmd+Q`: Quit.
 
+## v0.3.2 Scope
+
+- Data Trust Hotfix release for empty JSON import recovery.
+- Importing `{ "version": 1, "tasks": [] }` saves a valid empty schema v1 payload.
+- After the empty import is saved, the app restarts through a limited Electron IPC action.
+- After restart, first-run does not return and New Task is immediately editable.
+- Tasks created after empty import recovery persist after close/reopen.
+- No task schema, UI redesign, or Electron security setting changes are included.
+
 ## v0.3.1 Scope
 
 - Hotfix release for first-run persistence detection.
 - Valid schema v1 empty payloads suppress first-run.
 - Start blank plus a newly created task persists after close/reopen.
 - Clean rebuilt `win-unpacked` and portable ZIP artifacts persist data through the shared Electron user profile.
-- Known issue: importing an empty JSON file may leave the New Task modal non-editable until app restart. Use Start blank for a new empty calendar, or restart after importing an empty JSON file.
 
 ## v0.3.0 Scope
 
@@ -97,3 +105,4 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - Portable app data is not stored inside the extracted app folder.
 - No cloud sync, installer, auto-update, reminders, notifications, tray integration, database, backend, or account system.
 - Portable ZIP should be extracted before running.
+- Importing an empty JSON task list intentionally restarts the app after saving the empty schema v1 payload.

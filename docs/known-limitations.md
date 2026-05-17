@@ -1,6 +1,6 @@
 # Known Limitations
 
-This document captures the known limitations for the v0.3.1 local testing baseline.
+This document captures the known limitations for the v0.3.2 local testing baseline.
 
 ## Distribution
 
@@ -34,11 +34,7 @@ This document captures the known limitations for the v0.3.1 local testing baseli
 - Data does not sync between machines or Windows user profiles.
 - Clearing the Electron app profile can remove local task data.
 - Export/import is the only manual backup and restore path in this prototype.
-
-## Known Issues
-
-- Importing an empty JSON payload such as `{ "version": 1, "tasks": [] }` may leave the New Task modal non-editable until the app is restarted.
-- Workaround: use Start blank when beginning from an empty calendar, or restart the app after importing an empty JSON file.
+- Importing an empty JSON payload such as `{ "version": 1, "tasks": [] }` intentionally restarts the app after saving the valid empty schema v1 payload.
 
 ## Platform Notes
 

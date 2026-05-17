@@ -1,5 +1,36 @@
 # Release Notes
 
+## v0.3.2 - Data Trust Hotfix
+
+Task Calendar v0.3.2 is a focused Data Trust Hotfix for empty JSON import recovery. It does not add product features, change UI behavior beyond the recovery flow, change storage schema v1, or relax Electron security settings.
+
+### Bugfixes
+
+- Fixed empty JSON import recovery for payloads such as `{ "version": 1, "tasks": [] }`.
+- Empty JSON import now saves a valid empty schema v1 payload before recovery.
+- After saving the empty payload, the renderer requests a limited main-process app restart.
+- After restart, first-run does not return because the valid empty payload is loaded normally.
+- New Task is editable immediately after empty import recovery.
+- Tasks saved after empty import recovery persist after close/reopen.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.3.2-portable-x64.zip`
+- Builds are unsigned local test artifacts and are not production releases.
+
+### Recommended Testing Notes
+
+- Verify empty JSON import recovery in `npm start`, `dist/win-unpacked/TaskCalendar.exe`, and an extracted portable ZIP.
+- Confirm the app restarts after empty JSON import and returns to the normal empty calendar state.
+- Confirm first-run does not return after the restart.
+- Confirm New Task is editable after recovery, and a saved task persists after close/reopen.
+- Confirm renderer security and CSP warning status remain unchanged.
+
 ## v0.3.1 - First-Run Persistence Hotfix
 
 Task Calendar v0.3.1 is a focused bugfix release for first-run persistence detection. It does not add product features, change UI behavior, change storage schema v1, or relax Electron security settings.
@@ -18,11 +49,6 @@ Task Calendar v0.3.1 is a focused bugfix release for first-run persistence detec
 - The portable ZIP does not store task data inside the extracted app folder.
 - Moving the portable app folder does not move user data.
 
-### Known Issue
-
-- Importing an empty JSON payload such as `{ "version": 1, "tasks": [] }` may leave the New Task modal non-editable until the app is restarted.
-- Workaround: use Start blank when beginning from an empty state, or restart the app after importing an empty JSON file.
-
 ### Desktop Packaging Status
 
 - Electron desktop shell is available through `npm start`.
@@ -38,7 +64,7 @@ Task Calendar v0.3.1 is a focused bugfix release for first-run persistence detec
 - Verify Start blank, create task, close/reopen, and confirm first-run does not return.
 - Verify both `dist/win-unpacked/TaskCalendar.exe` and an extracted copy of `dist/Task Calendar-0.3.1-portable-x64.zip`.
 - Confirm renderer security and CSP warning status remain unchanged.
-- Confirm the empty JSON import modal limitation is still documented as a known issue, not treated as fixed.
+- Note: empty JSON import recovery is fixed in v0.3.2.
 
 ## v0.3.0 - Desktop Layout Release Baseline
 

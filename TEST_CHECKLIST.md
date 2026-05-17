@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.3.1 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.3.2 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.3.1-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.3.2-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -57,6 +57,8 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 - [ ] Reset to clean storage and choose Import tasks.
 - [ ] Confirm valid imported tasks load and render.
 - [ ] Import `{ "version": 1, "tasks": [] }` and confirm the app restarts into the normal empty calendar state without showing first-run.
+- [ ] Confirm the empty import restart shows `Empty task list imported.` after recovery.
+- [ ] Click New Task after the empty import restart and confirm Title and Description are immediately editable.
 - [ ] After the empty JSON import restart, click New Task, create a minimal task, close/reopen, and confirm the task persists without first-run returning.
 - [ ] Confirm corrupted localStorage is backed up before fallback and does not crash the app.
 
@@ -91,6 +93,7 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 - [ ] Import a valid JSON task file.
 - [ ] Confirm import asks for confirmation before replacing data outside first-run.
 - [ ] Confirm imported tasks render after import.
+- [ ] Import a non-empty JSON file and confirm it does not restart the app.
 - [ ] Try invalid imported JSON and confirm it is rejected without crashing.
 - [ ] Use Reset demo data.
 - [ ] Confirm reset asks for confirmation.
@@ -136,12 +139,13 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Copy `dist/Task Calendar-0.3.1-portable-x64.zip` to a separate normal folder.
-- [ ] Extract `dist/Task Calendar-0.3.1-portable-x64.zip` to a normal folder.
+- [ ] Copy `dist/Task Calendar-0.3.2-portable-x64.zip` to a separate normal folder.
+- [ ] Extract `dist/Task Calendar-0.3.2-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.
 - [ ] Confirm first-run flows work in a clean extracted-app profile.
+- [ ] Confirm empty JSON import restarts the extracted app and returns to a normal empty calendar state.
 - [ ] Choose Start blank, create a task, close/reopen the same extracted `TaskCalendar.exe`, and confirm the task persists.
 - [ ] Confirm CRUD works.
 - [ ] Confirm localStorage persists after close and reopen.
