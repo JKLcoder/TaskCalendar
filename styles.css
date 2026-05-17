@@ -771,10 +771,12 @@ button {
 
 .today-actions {
   display: grid;
-  gap: 6px;
-  padding: 9px 10px 10px;
+  gap: 5px;
+  padding: 8px 10px 9px;
   border-bottom: 1px solid var(--border);
-  background: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(35, 111, 98, 0.035), rgba(255, 255, 255, 0) 76%),
+    #ffffff;
 }
 
 .action-list-header {
@@ -786,7 +788,7 @@ button {
 
 .action-list-title {
   margin: 0;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.2;
 }
 
@@ -805,22 +807,25 @@ button {
 .action-list-hint {
   margin: -2px 0 0;
   color: var(--faint);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.3;
 }
 
 .action-list {
   display: grid;
-  gap: 6px;
+  gap: 5px;
 }
 
 .action-item {
   display: grid;
-  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 6px;
+  gap: 5px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: #fbfcfb;
-  padding: 8px;
+  padding: 7px;
 }
 
 .action-item.overdue {
@@ -837,7 +842,7 @@ button {
   display: grid;
   grid-template-columns: 8px minmax(0, 1fr);
   align-items: start;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
 }
 
@@ -853,19 +858,24 @@ button {
   margin: 0;
   overflow: hidden;
   font-size: 13px;
-  line-height: 1.25;
+  line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .action-meta {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 5px;
+  flex-wrap: nowrap;
+  gap: 4px;
+  margin-top: 4px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .action-meta-pill {
+  min-width: 0;
+  max-width: 94px;
+  overflow: hidden;
   border-radius: 999px;
   background: var(--surface-2);
   color: var(--muted);
@@ -873,6 +883,8 @@ button {
   font-size: 10px;
   font-weight: 700;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .action-item.overdue .action-meta-pill:first-child {
@@ -881,25 +893,42 @@ button {
 }
 
 .action-description {
-  margin: 5px 0 0;
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.3;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: none;
 }
 
 .action-item-controls {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  gap: 5px;
+  gap: 3px;
+  min-width: max-content;
 }
 
 .compact-text {
-  min-height: 26px;
-  padding: 4px 8px;
+  min-height: 28px;
+  padding: 4px 7px;
   font-size: 11px;
+}
+
+.action-item-controls [data-action="action-done"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(35, 111, 98, 0.13);
+}
+
+.action-item-controls [data-action="action-edit"],
+.action-item-controls [data-action="jump-date"] {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.action-item-controls [data-action="action-edit"]:hover,
+.action-item-controls [data-action="jump-date"]:hover {
+  border-color: var(--border);
+  background: #ffffff;
+  color: var(--accent);
 }
 
 .action-empty,
@@ -912,6 +941,23 @@ button {
   font-size: 12px;
   font-weight: 680;
   text-align: center;
+}
+
+.action-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-color: rgba(75, 127, 82, 0.24);
+  background: #f6faf6;
+}
+
+.action-empty::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--done);
+  content: "";
 }
 
 .action-more {
@@ -1204,6 +1250,25 @@ textarea:focus {
   .search-tools {
     flex: 1 1 100%;
     justify-content: flex-start;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .today-actions {
+    padding: 7px 9px 8px;
+  }
+
+  .action-list-hint,
+  .action-description {
+    display: none;
+  }
+
+  .action-item {
+    padding: 6px 7px;
+  }
+
+  .compact-text {
+    min-height: 27px;
   }
 }
 

@@ -49,6 +49,8 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 - [ ] Confirm Today Action List Edit opens the existing task edit form.
 - [ ] Confirm Today Action List Jump switches to the task date without mutating task data.
 - [ ] Confirm Today Action List shows `No urgent actions right now.` when no overdue or today incomplete tasks exist.
+- [ ] Confirm Today Action List visually treats Done as the primary action and Edit/Jump as secondary actions.
+- [ ] Confirm Today Action List remains compact and readable around a 1024x720 window.
 - [ ] Confirm Show today incomplete selects today and filters unfinished today tasks.
 - [ ] Confirm Clear filters resets search, status filter, and Today incomplete mode.
 
