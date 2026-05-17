@@ -144,9 +144,20 @@
               <button class="button quiet compact" id="commandClearFiltersButton" type="button">Clear filters</button>
             </div>
           </section>
+          <section class="today-actions" aria-labelledby="todayActionsTitle">
+            <div class="action-list-header">
+              <div>
+                <div class="panel-kicker">Today Action List</div>
+                <h2 class="action-list-title" id="todayActionsTitle">Next Actions</h2>
+              </div>
+              <span class="action-list-count" id="todayActionCount">0</span>
+            </div>
+            <p class="action-list-hint">Next actions from all unfinished tasks.</p>
+            <div class="action-list" id="todayActionList"></div>
+          </section>
           <section class="selected-details" aria-labelledby="selectedDetailsTitle">
             <div class="panel-header">
-              <div class="panel-kicker">Selected Day Details</div>
+              <div class="panel-kicker" id="selectedDetailsKicker">Selected Day Details</div>
               <h2 class="panel-date" id="selectedDetailsTitle"><span id="panelDate">Friday, May 15, 2026</span></h2>
               <p class="panel-summary" id="panelSummary">4 tasks scheduled</p>
               <p class="panel-relation" id="panelRelation">Selected date is today.</p>

@@ -41,6 +41,14 @@ Use this checklist for the v0.3.2 local testing baseline. Mark each item after t
 - [ ] Confirm Today Overview shows incomplete, overdue, done, and this-week-open metrics.
 - [ ] Confirm Week Pressure appears beside the this-week-open metric.
 - [ ] Confirm Week Pressure changes when current-week tasks are created, completed, or become overdue.
+- [ ] Confirm Today Action List appears below Today Command Center and above Selected Day Details.
+- [ ] Confirm Today Action List shows overdue unfinished tasks before today unfinished tasks.
+- [ ] Confirm Today Action List excludes done tasks and caps visible actions at 5 with a `+N more actions` note.
+- [ ] Confirm Today Action List ignores toolbar search/status filters while calendar and Selected Day Details still honor them.
+- [ ] Confirm Today Action List Mark done removes the item from the action queue.
+- [ ] Confirm Today Action List Edit opens the existing task edit form.
+- [ ] Confirm Today Action List Jump switches to the task date without mutating task data.
+- [ ] Confirm Today Action List shows `No urgent actions right now.` when no overdue or today incomplete tasks exist.
 - [ ] Confirm Show today incomplete selects today and filters unfinished today tasks.
 - [ ] Confirm Clear filters resets search, status filter, and Today incomplete mode.
 

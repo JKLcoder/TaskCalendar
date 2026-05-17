@@ -30,6 +30,7 @@
   const grid = document.getElementById("calendarGrid");
   const monthTitle = document.getElementById("monthTitle");
   const panelDate = document.getElementById("panelDate");
+  const selectedDetailsKicker = document.getElementById("selectedDetailsKicker");
   const panelSummary = document.getElementById("panelSummary");
   const panelRelation = document.getElementById("panelRelation");
   const panelList = document.getElementById("panelList");
@@ -57,6 +58,8 @@
   const weekOpenCount = document.getElementById("weekOpenCount");
   const weekPressurePill = document.getElementById("weekPressurePill");
   const weekPressureHint = document.getElementById("weekPressureHint");
+  const todayActionCount = document.getElementById("todayActionCount");
+  const todayActionList = document.getElementById("todayActionList");
   const commandTodayIncompleteButton = document.getElementById("commandTodayIncompleteButton");
   const commandClearFiltersButton = document.getElementById("commandClearFiltersButton");
   const toast = document.getElementById("toast");
@@ -229,6 +232,39 @@
     };
   }
 
+  function getTodayActionItems() {
+    const todayISO = dateToISO(getTodayDate());
+
+    return tasks
+      .filter((task) => task.status !== "done")
+      .filter((task) => getEffectiveStatus(task) === "overdue" || task.date === todayISO)
+      .sort((a, b) => {
+        const aOverdue = getEffectiveStatus(a) === "overdue";
+        const bOverdue = getEffectiveStatus(b) === "overdue";
+        if (aOverdue !== bOverdue) return aOverdue ? -1 : 1;
+
+        const statusRank = { in_progress: 0, todo: 1 };
+        const statusDelta = (statusRank[a.status] ?? 2) - (statusRank[b.status] ?? 2);
+        if (statusDelta) return statusDelta;
+
+        const timeDelta = (a.time ? 0 : 1) - (b.time ? 0 : 1);
+        if (timeDelta) return timeDelta;
+
+        const clockDelta = (a.time || "99:99").localeCompare(b.time || "99:99");
+        if (clockDelta) return clockDelta;
+
+        return a.title.localeCompare(b.title) || a.id.localeCompare(b.id);
+      });
+  }
+
+  function formatActionSchedule(task) {
+    if (getEffectiveStatus(task) === "overdue") {
+      return `Overdue · ${new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(parseISODate(task.date))}`;
+    }
+
+    return task.time || "Today";
+  }
+
   function buildCalendarCells() {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
@@ -306,6 +342,7 @@
     const today = getTodayDate();
     const todayISO = dateToISO(today);
     const selectedISO = dateToISO(selectedDate);
+    selectedDetailsKicker.textContent = selectedISO === todayISO ? "Full Today Details" : "Selected Day Details";
     panelRelation.textContent = selectedISO === todayISO
       ? "Today"
       : `Today overview: ${new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(today)}`;
@@ -363,11 +400,54 @@
     commandClearFiltersButton.disabled = !hasActiveFilters();
   }
 
+  function renderTodayActionList() {
+    const actionItems = getTodayActionItems();
+    const visibleItems = actionItems.slice(0, 5);
+    const hiddenCount = actionItems.length - visibleItems.length;
+    todayActionCount.textContent = String(actionItems.length);
+
+    if (!actionItems.length) {
+      todayActionList.innerHTML = `<div class="action-empty">No urgent actions right now.</div>`;
+      return;
+    }
+
+    todayActionList.innerHTML = `
+      ${visibleItems.map((task) => {
+        const effectiveStatus = getEffectiveStatus(task);
+        const assignee = task.assignee ? `<span class="action-meta-pill">${escapeHTML(task.assignee)}</span>` : "";
+        const description = task.description ? `<p class="action-description">${escapeHTML(task.description)}</p>` : "";
+
+        return `
+          <article class="action-item ${escapeHTML(effectiveStatus)}" data-task-id="${escapeHTML(task.id)}">
+            <div class="action-item-main">
+              <span class="status-dot ${escapeHTML(effectiveStatus)}" aria-hidden="true"></span>
+              <div class="action-item-copy">
+                <h3 class="action-title">${escapeHTML(task.title)}</h3>
+                <div class="action-meta">
+                  <span class="action-meta-pill">${escapeHTML(formatActionSchedule(task))}</span>
+                  ${assignee}
+                </div>
+                ${description}
+              </div>
+            </div>
+            <div class="action-item-controls" aria-label="Actions for ${escapeHTML(task.title)}">
+              <button class="text-button compact-text" type="button" data-action="action-done" data-task-id="${escapeHTML(task.id)}">Done</button>
+              <button class="text-button compact-text" type="button" data-action="action-edit" data-task-id="${escapeHTML(task.id)}">Edit</button>
+              <button class="text-button compact-text" type="button" data-action="jump-date" data-task-id="${escapeHTML(task.id)}">Jump</button>
+            </div>
+          </article>
+        `;
+      }).join("")}
+      ${hiddenCount > 0 ? `<div class="action-more">+${hiddenCount} more actions</div>` : ""}
+    `;
+  }
+
   function renderAll() {
     renderFirstRunState();
     updateFilterControls();
     renderCalendar();
     renderTodayCommandCenter();
+    renderTodayActionList();
     renderPanel();
   }
 
@@ -555,6 +635,14 @@
     showToast("Task marked done.");
   }
 
+  function jumpToTaskDate(id) {
+    const task = tasks.find((item) => item.id === id);
+    if (!task || !isValidDate(task.date)) return;
+    selectedDate = parseISODate(task.date);
+    currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+    renderAll();
+  }
+
   function moveMonth(delta) {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth() + delta;
@@ -710,6 +798,27 @@
       openTaskForm(tasks.find((task) => task.id === event.target.dataset.taskId));
     }
   });
+  todayActionList.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
+
+    const task = tasks.find((item) => item.id === button.dataset.taskId);
+    if (!task) return;
+
+    if (button.dataset.action === "action-done") {
+      markTaskDone(task.id);
+      return;
+    }
+
+    if (button.dataset.action === "action-edit") {
+      openTaskForm(task);
+      return;
+    }
+
+    if (button.dataset.action === "jump-date") {
+      jumpToTaskDate(task.id);
+    }
+  });
 
   if (window.taskCalendarDesktop) {
     window.taskCalendarDesktop.onMenuAction((action) => {
@@ -734,6 +843,7 @@
     getFilters: () => ({ ...filters }),
     isFirstRunActive: () => firstRunActive,
     getTodayMetrics,
+    getTodayActionItems: () => getTodayActionItems().map((task) => ({ ...task })),
     getTasks: () => tasks.map((task) => ({ ...task })),
     renderAll
   };
