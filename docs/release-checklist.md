@@ -1,13 +1,13 @@
 # Release Checklist
 
-Use this checklist before calling v0.5.0 a frozen local testing baseline.
+Use this checklist before calling v0.6.0 a frozen local testing baseline.
 
 ## Install And Static Validation
 
 - [ ] Run `npm install`.
 - [ ] Run `npm audit` and confirm 0 vulnerabilities.
 - [ ] Run `node --check main.js app.js storage.js preload.js`.
-- [ ] Confirm `package.json` version is `0.5.0`.
+- [ ] Confirm `package.json` version is `0.6.0`.
 - [ ] Confirm `productName` is `Task Calendar`.
 - [ ] Confirm `appId` is `com.local.taskcalendar`.
 - [ ] Confirm storage schema remains v1.
@@ -27,6 +27,12 @@ Use this checklist before calling v0.5.0 a frozen local testing baseline.
 - [ ] Confirm End-of-Day Review done, remaining, overdue, and completion text are correct.
 - [ ] Confirm View remaining today selects today, shows today incomplete tasks, and does not mutate task data.
 - [ ] Confirm End-of-Day Review counts update after create, edit, mark done, reset, and import.
+- [ ] Confirm File > Data & Settings opens the Data & Settings dialog.
+- [ ] Confirm Data & Settings shows app version, data location, storage type, current task count, and portable data note.
+- [ ] Confirm Open data location opens the Electron userData folder.
+- [ ] Confirm Export backup writes valid schema v1 JSON.
+- [ ] Confirm Restore from JSON restores valid schema v1 JSON, restarts after success, and leaves New Task editable after restart.
+- [ ] Confirm invalid restore JSON and canceled restore do not mutate current data or restart.
 - [ ] Confirm first-run panel appears with a clean profile.
 - [ ] Confirm Start blank plus a saved task persists after close/reopen.
 - [ ] Confirm empty JSON import saves a valid empty payload, restarts the app, and returns to the normal empty calendar state.
@@ -42,8 +48,8 @@ Use this checklist before calling v0.5.0 a frozen local testing baseline.
 - [ ] Run `npm run pack`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
 - [ ] Run `npm run dist:portable`.
-- [ ] Confirm `dist/Task Calendar-0.5.0-portable-x64.zip` exists.
-- [ ] Confirm artifact names include `0.5.0`.
+- [ ] Confirm `dist/Task Calendar-0.6.0-portable-x64.zip` exists.
+- [ ] Confirm artifact names include `0.6.0`.
 
 ## Packaged App Validation
 
@@ -59,6 +65,10 @@ Use this checklist before calling v0.5.0 a frozen local testing baseline.
 - [ ] Confirm Today Command Center and Week Pressure.
 - [ ] Confirm Today Action List ordering, item cap, Done/Edit/Jump actions, and filter independence.
 - [ ] Confirm End-of-Day Review counts, completion copy, state message, and View remaining today action.
+- [ ] Confirm Data & Settings version/path/storage type/task count and portable note in both packaged outputs.
+- [ ] Manually spot-check Open data location.
+- [ ] Manually spot-check Export backup native save dialog and exported schema v1 JSON.
+- [ ] Manually spot-check Restore from JSON native open dialog, replacement confirmation, successful restart, invalid JSON rejection, and cancel behavior.
 - [ ] Confirm Full Today Details appears when the selected day is today.
 - [ ] Confirm fixed shell layout, calendar/right-panel vertical alignment, top-left date numbers, status select filtering, and compact right panel density.
 - [ ] Confirm CRUD, mark done, search/filter, Today incomplete, Clear filters, import/export, reset demo data, and localStorage persistence.
@@ -84,4 +94,4 @@ Use this checklist before calling v0.5.0 a frozen local testing baseline.
 - [ ] Confirm known limitations are documented.
 - [ ] Confirm empty JSON import restart recovery is documented.
 - [ ] Confirm no app behavior, storage schema, or Electron security settings changed during release preparation.
-- [ ] Do not create the `v0.5.0` Git tag until review approves the baseline.
+- [ ] Do not create the `v0.6.0` Git tag until review approves the baseline.

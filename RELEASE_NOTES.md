@@ -1,5 +1,63 @@
 # Release Notes
 
+## v0.6.0 - Local Data & Settings
+
+Task Calendar v0.6.0 adds a lightweight Local Data & Settings surface so users can see where their local data lives, open that folder, export a backup, and restore schema v1 JSON data without adding cloud sync, accounts, a database, or a larger settings system.
+
+### Major Changes
+
+- Added `File > Data & Settings...`.
+- Added a compact Data & Settings modal.
+- The modal shows app version, data location, storage type, and current task count.
+- The modal documents that portable app data is stored in the Electron user profile, not inside the extracted portable folder.
+- Added Open data location for the resolved Electron userData folder.
+- Added Export backup using the existing schema v1 JSON export payload.
+- Added Restore from JSON using the existing schema v1 validation flow.
+- Restore from JSON restarts the app after a successful restore to ensure a clean runtime state.
+- Task schema remains v1.
+- No cloud sync, database, account system, installer, auto-update, tray, or reminder workflow is included.
+
+### Preserved Behavior
+
+- Today Command Center and Week Pressure.
+- Today Action List with Done, Edit, and Jump.
+- End-of-Day Review / Wrap Today.
+- Task create, edit, delete, and mark done.
+- Search by title, description, and assignee/tag.
+- Status filters for All, Todo, In progress, Done, and Overdue.
+- Today incomplete quick filter and Clear filters.
+- Existing toolbar/menu import and export behavior.
+- Empty JSON import restart recovery.
+- Reset demo data.
+- First-run Start blank, Use demo data, and Import tasks.
+- `localStorage` schema v1 compatibility.
+- Native Electron menu and shortcuts.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.6.0-portable-x64.zip`
+- Builds are unsigned local test artifacts and are not production releases.
+
+### Security Baseline
+
+- `nodeIntegration` remains disabled.
+- `contextIsolation` remains enabled.
+- `sandbox` remains enabled.
+- Renderer cannot access `require`, `process`, `window.process`, `fs`, `path`, `shell`, or `ipcRenderer`.
+- A restrictive local-only Content Security Policy remains configured.
+- No backend service, remote sync, database, account system, or cloud access is included.
+
+### Recommended Testing Notes
+
+- Verify Data & Settings values, Open data location, Export backup, Restore from JSON, and restore restart behavior in `npm start`, `dist/win-unpacked/TaskCalendar.exe`, and an extracted portable ZIP.
+- Confirm Restore from JSON asks before replacing data, rejects invalid JSON, and does not restart when canceled.
+- Confirm existing CRUD, first-run, import/export, Today Command Center, Week Pressure, Today Action List, End-of-Day Review, localStorage persistence, native menus, shortcuts, renderer security, and CSP warning status remain unchanged.
+
 ## v0.5.0 - End-of-Day Review
 
 Task Calendar v0.5.0 adds a lightweight End-of-Day Review so the Today-first workflow can close the loop: see what was done, what remains, and what needs attention before the day ends. It does not add charts, AI summaries, reminder systems, or storage schema changes.

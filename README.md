@@ -2,7 +2,7 @@
 
 Task Calendar is a local Electron desktop prototype for managing tasks on a month calendar board. It focuses on a Today-first workflow: open the app, see today's workload, understand this week's pressure, and manage tasks from a compact desktop calendar.
 
-This repository is preparing the v0.5.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
+This repository is preparing the v0.6.0 local testing baseline. It is intended for desktop smoke testing and prototype review, not production distribution.
 
 ## Development Run
 
@@ -21,7 +21,7 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.5.0-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.6.0-portable-x64.zip`.
 - To run the portable build, extract the ZIP to a normal folder first, then launch `TaskCalendar.exe`.
 - Running the app directly from temporary folders may be unreliable in some Windows/Electron environments.
 
@@ -35,9 +35,18 @@ Task data is stored in the Electron user profile `localStorage` under:
 
 The portable ZIP does not store task data inside the extracted app folder. Moving the portable app folder does not move user data; export JSON first if you want to transfer tasks to another Windows profile or machine.
 
+## Data & Settings
+
+Open `File > Data & Settings...` to view local data details and run basic data operations.
+
+- Shows app version, resolved data location, storage type, current task count, and the portable data note.
+- Open data location opens the Electron userData folder.
+- Export backup writes a schema v1 JSON backup through a native save dialog.
+- Restore from JSON validates schema v1 data, asks before replacing current tasks, and restarts the app after a successful restore.
+
 ## Desktop Menu
 
-- File: New Task, Import Tasks, Export Tasks, Reset Demo Data, Quit.
+- File: New Task, Import Tasks, Export Tasks, Reset Demo Data, Data & Settings, Quit.
 - View: Reload, Toggle Developer Tools.
 - Help: About Task Calendar.
 
@@ -50,6 +59,19 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - `Ctrl/Cmd+Shift+I`: Toggle Developer Tools.
 - `F12`: Toggle Developer Tools.
 - `Ctrl/Cmd+Q`: Quit.
+
+## v0.6.0 Scope
+
+- Local Data & Settings release for making local data location, backup, and restore behavior explicit.
+- Added `File > Data & Settings...`.
+- Added a compact Data & Settings modal.
+- The modal shows app version, resolved data location, storage type, current task count, and a portable data note.
+- Open data location opens the Electron userData folder.
+- Export backup writes schema v1 JSON through a native save dialog.
+- Restore from JSON validates schema v1 data, confirms replacement, saves restored tasks, and restarts the app after success.
+- Portable ZIP data remains stored in the Electron user profile, not inside the extracted portable folder.
+- No task schema or Electron security setting changes are included.
+- No Clear all tasks, cloud sync, database, account system, installer, auto-update, tray, or reminder workflow is included.
 
 ## v0.5.0 Scope
 
@@ -130,3 +152,4 @@ The portable ZIP does not store task data inside the extracted app folder. Movin
 - No cloud sync, installer, auto-update, reminders, notifications, tray integration, database, backend, or account system.
 - Portable ZIP should be extracted before running.
 - Importing an empty JSON task list intentionally restarts the app after saving the empty schema v1 payload.
+- Restore from JSON is a full local data replacement and intentionally restarts the app after a successful restore.

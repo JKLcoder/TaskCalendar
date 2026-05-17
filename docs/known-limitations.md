@@ -1,6 +1,6 @@
 # Known Limitations
 
-This document captures the known limitations for the v0.5.0 local testing baseline.
+This document captures the known limitations for the v0.6.0 local testing baseline.
 
 ## Distribution
 
@@ -36,6 +36,8 @@ This document captures the known limitations for the v0.5.0 local testing baseli
 - Clearing the Electron app profile can remove local task data.
 - Export/import is the only manual backup and restore path in this prototype.
 - Importing an empty JSON payload such as `{ "version": 1, "tasks": [] }` intentionally restarts the app after saving the valid empty schema v1 payload.
+- Restore from JSON is a full local data replacement and intentionally restarts the app after a successful restore.
+- Clear all tasks is not included in v0.6.0.
 
 ## Platform Notes
 
