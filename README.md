@@ -26,7 +26,7 @@ This project is currently a beta/local prototype. It is not a signed production 
 For beta testing, use the portable ZIP artifact from the project owner or the GitHub release package when available:
 
 ```text
-dist/Task Calendar-0.6.0-portable-x64.zip
+dist/Task Calendar-0.7.0-portable-x64.zip
 ```
 
 To run the portable build:
@@ -104,6 +104,7 @@ See [feedback guide](docs/feedback-guide.md) for the full beta question list.
 - [Feedback guide](docs/feedback-guide.md)
 - [Commercialization hypothesis](docs/commercialization-hypothesis.md)
 - [Screenshots checklist](docs/screenshots-checklist.md)
+- [GitHub release draft v0.7.0](docs/github-release-draft-v0.7.0.md)
 - [Release notes](RELEASE_NOTES.md)
 - [Manual test checklist](TEST_CHECKLIST.md)
 - [Known limitations](docs/known-limitations.md)
@@ -126,7 +127,7 @@ npm run dist:portable
 ```
 
 - `npm run pack` generates an unpacked Windows build at `dist/win-unpacked/`.
-- `npm run dist:portable` generates `dist/Task Calendar-0.6.0-portable-x64.zip`.
+- `npm run dist:portable` generates `dist/Task Calendar-0.7.0-portable-x64.zip`.
 - Extract the portable ZIP to a normal folder before running.
 
 ## Desktop Menu

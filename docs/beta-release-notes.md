@@ -1,6 +1,6 @@
-# Beta Release Notes
+# Beta Release Notes: v0.7.0
 
-Task Calendar is a beta/local prototype for testing a local-first desktop command center for today's work. It is not production-ready, not signed, and not commercially available.
+Task Calendar v0.7.0 is a beta/local prototype for testing a local-first desktop command center for today's work. It is not production-ready, not signed, and not commercially available.
 
 ## What Task Calendar Is
 

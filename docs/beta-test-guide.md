@@ -17,7 +17,7 @@ Try Task Calendar if you:
 Use the portable ZIP provided by the project owner or GitHub release package when available:
 
 ```text
-Task Calendar-0.6.0-portable-x64.zip
+Task Calendar-0.7.0-portable-x64.zip
 ```
 
 ## Run The App

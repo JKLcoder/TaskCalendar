@@ -8,10 +8,12 @@ Use this checklist before sharing a beta ZIP with external testers.
 - [ ] Run `npm audit` and confirm 0 vulnerabilities.
 - [ ] Run `node --check main.js app.js storage.js preload.js`.
 - [ ] Confirm app version and artifact naming are intentional.
+- [ ] Confirm app version is `0.7.0`.
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
 - [ ] Confirm the portable ZIP exists.
+- [ ] Confirm the portable ZIP name is `Task Calendar-0.7.0-portable-x64.zip`.
 
 ## Packaged App Smoke Test
 

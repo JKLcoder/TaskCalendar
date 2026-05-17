@@ -1,6 +1,6 @@
 # Manual Test Checklist
 
-Use this checklist for the v0.6.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
+Use this checklist for the v0.7.0 local testing baseline. Mark each item after testing the development app when needed and both packaged Windows app artifacts.
 
 ## Setup
 
@@ -11,7 +11,7 @@ Use this checklist for the v0.6.0 local testing baseline. Mark each item after t
 - [ ] Run `npm run pack`.
 - [ ] Run `npm run dist:portable`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
-- [ ] Confirm `dist/Task Calendar-0.6.0-portable-x64.zip` exists.
+- [ ] Confirm `dist/Task Calendar-0.7.0-portable-x64.zip` exists.
 
 ## App Launch And Rendering
 
@@ -180,8 +180,8 @@ Use this checklist for the v0.6.0 local testing baseline. Mark each item after t
 
 ## Portable ZIP
 
-- [ ] Copy `dist/Task Calendar-0.6.0-portable-x64.zip` to a separate normal folder.
-- [ ] Extract `dist/Task Calendar-0.6.0-portable-x64.zip` to a normal folder.
+- [ ] Copy `dist/Task Calendar-0.7.0-portable-x64.zip` to a separate normal folder.
+- [ ] Extract `dist/Task Calendar-0.7.0-portable-x64.zip` to a normal folder.
 - [ ] Launch the extracted `TaskCalendar.exe`.
 - [ ] Confirm the calendar renders.
 - [ ] Confirm Today Command Center and Week Pressure render.

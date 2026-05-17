@@ -1,5 +1,62 @@
 # Release Notes
 
+## v0.7.0 - Commercial Validation / Beta Distribution
+
+Task Calendar v0.7.0 is a Commercial Validation / Beta Distribution release. It prepares the project for external beta users to understand, download, try, and give feedback on the local-first Today-first workflow.
+
+This is still a beta/local prototype. It is not production-ready, not signed, and not commercially available.
+
+### Major Changes
+
+- Added commercial validation documentation.
+- Added product positioning documentation.
+- Added beta test guide.
+- Added feedback guide.
+- Added commercialization hypothesis.
+- Added screenshots checklist.
+- Added beta release notes.
+- Added beta invitation message.
+- Added beta feedback form.
+- Added beta distribution checklist.
+- Updated README toward an external beta-user entry point.
+
+### Commercialization Boundary
+
+- No payment flow.
+- No subscription.
+- No account system.
+- No cloud sync.
+- No license server.
+- No team collaboration workflow.
+- No task schema v1 change.
+- No Electron security setting changes.
+
+### Desktop Packaging Status
+
+- Electron desktop shell is available through `npm start`.
+- Windows unpacked build is generated with `npm run pack`.
+- Portable ZIP build is generated with `npm run dist:portable`.
+- Current expected artifacts:
+  - `dist/win-unpacked/`
+  - `dist/Task Calendar-0.7.0-portable-x64.zip`
+- Builds are unsigned local beta artifacts and are not production releases.
+
+### Security Baseline
+
+- `nodeIntegration` remains disabled.
+- `contextIsolation` remains enabled.
+- `sandbox` remains enabled.
+- Renderer cannot access `require`, `process`, `window.process`, `fs`, `path`, `shell`, or `ipcRenderer`.
+- A restrictive local-only Content Security Policy remains configured.
+- No backend service, remote sync, database, account system, or cloud access is included.
+
+### Recommended Testing Notes
+
+- Verify README and beta documentation links.
+- Verify beta release notes, invitation message, feedback form, and distribution checklist are ready for external testers.
+- Verify packaged artifacts still launch and preserve existing app behavior.
+- Confirm existing CRUD, first-run, import/export, Data & Settings, Today Command Center, Week Pressure, Today Action List, End-of-Day Review, localStorage persistence, native menus, shortcuts, renderer security, and CSP warning status remain unchanged.
+
 ## v0.6.0 - Local Data & Settings
 
 Task Calendar v0.6.0 adds a lightweight Local Data & Settings surface so users can see where their local data lives, open that folder, export a backup, and restore schema v1 JSON data without adding cloud sync, accounts, a database, or a larger settings system.

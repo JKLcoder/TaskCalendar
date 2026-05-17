@@ -1,13 +1,13 @@
 # Release Checklist
 
-Use this checklist before calling v0.6.0 a frozen local testing baseline.
+Use this checklist before calling v0.7.0 a frozen local testing baseline.
 
 ## Install And Static Validation
 
 - [ ] Run `npm install`.
 - [ ] Run `npm audit` and confirm 0 vulnerabilities.
 - [ ] Run `node --check main.js app.js storage.js preload.js`.
-- [ ] Confirm `package.json` version is `0.6.0`.
+- [ ] Confirm `package.json` version is `0.7.0`.
 - [ ] Confirm `productName` is `Task Calendar`.
 - [ ] Confirm `appId` is `com.local.taskcalendar`.
 - [ ] Confirm storage schema remains v1.
@@ -33,6 +33,12 @@ Use this checklist before calling v0.6.0 a frozen local testing baseline.
 - [ ] Confirm Export backup writes valid schema v1 JSON.
 - [ ] Confirm Restore from JSON restores valid schema v1 JSON, restarts after success, and leaves New Task editable after restart.
 - [ ] Confirm invalid restore JSON and canceled restore do not mutate current data or restart.
+- [ ] Confirm README links to beta and commercial validation documents.
+- [ ] Confirm beta release notes are ready for external testers.
+- [ ] Confirm beta invitation message includes download and feedback placeholders.
+- [ ] Confirm beta feedback form includes rating and open questions.
+- [ ] Confirm beta distribution checklist includes build, packaging, native menu, shortcut, and feedback link checks.
+- [ ] Confirm commercial validation docs do not claim production readiness, payment, subscription, account, cloud sync, or commercial availability.
 - [ ] Confirm first-run panel appears with a clean profile.
 - [ ] Confirm Start blank plus a saved task persists after close/reopen.
 - [ ] Confirm empty JSON import saves a valid empty payload, restarts the app, and returns to the normal empty calendar state.
@@ -48,8 +54,8 @@ Use this checklist before calling v0.6.0 a frozen local testing baseline.
 - [ ] Run `npm run pack`.
 - [ ] Confirm `dist/win-unpacked/TaskCalendar.exe` exists.
 - [ ] Run `npm run dist:portable`.
-- [ ] Confirm `dist/Task Calendar-0.6.0-portable-x64.zip` exists.
-- [ ] Confirm artifact names include `0.6.0`.
+- [ ] Confirm `dist/Task Calendar-0.7.0-portable-x64.zip` exists.
+- [ ] Confirm artifact names include `0.7.0`.
 
 ## Packaged App Validation
 
@@ -69,6 +75,9 @@ Use this checklist before calling v0.6.0 a frozen local testing baseline.
 - [ ] Manually spot-check Open data location.
 - [ ] Manually spot-check Export backup native save dialog and exported schema v1 JSON.
 - [ ] Manually spot-check Restore from JSON native open dialog, replacement confirmation, successful restart, invalid JSON rejection, and cancel behavior.
+- [ ] Confirm README download instructions match the v0.7.0 portable ZIP.
+- [ ] Confirm beta docs links work in the packaged/release materials.
+- [ ] Confirm feedback link placeholders are clearly marked before external beta sharing.
 - [ ] Confirm Full Today Details appears when the selected day is today.
 - [ ] Confirm fixed shell layout, calendar/right-panel vertical alignment, top-left date numbers, status select filtering, and compact right panel density.
 - [ ] Confirm CRUD, mark done, search/filter, Today incomplete, Clear filters, import/export, reset demo data, and localStorage persistence.
@@ -81,6 +90,10 @@ Use this checklist before calling v0.6.0 a frozen local testing baseline.
 - [ ] Confirm renderer cannot access `require`.
 - [ ] Confirm renderer cannot access `process`.
 - [ ] Confirm renderer cannot access `window.process`.
+- [ ] Confirm renderer cannot access `fs`.
+- [ ] Confirm renderer cannot access `path`.
+- [ ] Confirm renderer cannot access `shell`.
+- [ ] Confirm renderer cannot access `ipcRenderer`.
 - [ ] Confirm `nodeIntegration` remains disabled.
 - [ ] Confirm `contextIsolation` remains enabled.
 - [ ] Confirm `sandbox` remains enabled.
@@ -91,7 +104,9 @@ Use this checklist before calling v0.6.0 a frozen local testing baseline.
 
 - [ ] Confirm README output paths match the generated artifacts.
 - [ ] Confirm release notes describe the current scope.
+- [ ] Confirm GitHub release draft is prepared if publishing a GitHub release.
+- [ ] Confirm v0.7.0 is described as Commercial Validation / Beta Distribution, not a paid commercial release.
 - [ ] Confirm known limitations are documented.
 - [ ] Confirm empty JSON import restart recovery is documented.
 - [ ] Confirm no app behavior, storage schema, or Electron security settings changed during release preparation.
-- [ ] Do not create the `v0.6.0` Git tag until review approves the baseline.
+- [ ] Do not create the `v0.7.0` Git tag until review approves the baseline.
