@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 
 const MENU_ACTION_CHANNEL = "task-calendar:menu-action";
 const IMPORT_JSON_CHANNEL = "task-calendar:import-json";
+const RESTART_AFTER_EMPTY_IMPORT_CHANNEL = "task-calendar:restart-after-empty-import";
 const ALLOWED_MENU_ACTIONS = new Set(["newTask", "exportTasks", "resetDemoData"]);
 
 function subscribe(channel, handler) {
@@ -26,5 +27,8 @@ contextBridge.exposeInMainWorld("taskCalendarDesktop", {
         text: payload.text
       });
     });
+  },
+  restartAfterEmptyImport() {
+    return ipcRenderer.invoke(RESTART_AFTER_EMPTY_IMPORT_CHANNEL);
   }
 });

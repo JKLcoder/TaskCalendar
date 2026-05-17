@@ -1,10 +1,11 @@
-const { app, BrowserWindow, Menu, dialog } = require("electron");
+const { app, BrowserWindow, Menu, dialog, ipcMain } = require("electron");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
 const APP_NAME = "Task Calendar";
 const MENU_ACTION_CHANNEL = "task-calendar:menu-action";
 const IMPORT_JSON_CHANNEL = "task-calendar:import-json";
+const RESTART_AFTER_EMPTY_IMPORT_CHANNEL = "task-calendar:restart-after-empty-import";
 const isMac = process.platform === "darwin";
 
 app.setName(APP_NAME);
@@ -69,6 +70,11 @@ function openImportTasksDialog(browserWindow) {
       buttons: ["OK"]
     });
   });
+}
+
+function restartAfterEmptyImport() {
+  app.relaunch();
+  app.exit(0);
 }
 
 function toggleDevTools(browserWindow) {
@@ -226,6 +232,10 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  ipcMain.handle(RESTART_AFTER_EMPTY_IMPORT_CHANNEL, () => {
+    restartAfterEmptyImport();
+  });
+
   createApplicationMenu();
   createWindow();
 

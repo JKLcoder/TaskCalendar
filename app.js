@@ -73,6 +73,25 @@
     todayIncomplete: false
   };
   let toastTimer = null;
+  const EMPTY_IMPORT_RESTART_NOTICE_KEY = "task-calendar.emptyImportRestartNotice";
+
+  function setLocalFlag(key) {
+    try {
+      localStorage.setItem(key, "1");
+    } catch {
+      // The persisted empty task payload is the source of truth; the notice is best-effort.
+    }
+  }
+
+  function consumeLocalFlag(key) {
+    try {
+      const exists = localStorage.getItem(key) === "1";
+      if (exists) localStorage.removeItem(key);
+      return exists;
+    } catch {
+      return false;
+    }
+  }
 
   function escapeHTML(value) {
     return String(value || "").replace(/[&<>"']/g, (char) => ({
@@ -448,7 +467,7 @@
     showToast(message);
   }
 
-  function enterEmptyTaskState(message) {
+  function enterEmptyImportFallback(message) {
     if (document.activeElement && document.activeElement !== document.body) {
       document.activeElement.blur();
     }
@@ -459,6 +478,27 @@
     firstRunActive = false;
     renderAll();
     showToast(message);
+  }
+
+  function restartAfterEmptyImport() {
+    if (document.activeElement && document.activeElement !== document.body) {
+      document.activeElement.blur();
+    }
+    importFileInput.value = "";
+    importFromFirstRun = false;
+    filters = { query: "", status: "all", todayIncomplete: false };
+    setLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY);
+
+    if (window.taskCalendarDesktop?.restartAfterEmptyImport) {
+      window.taskCalendarDesktop.restartAfterEmptyImport().catch(() => {
+        consumeLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY);
+        enterEmptyImportFallback("Empty task list imported.");
+      });
+      return;
+    }
+
+    consumeLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY);
+    enterEmptyImportFallback("Empty task list imported.");
   }
 
   function startBlankCalendar() {
@@ -546,7 +586,7 @@
       persistTasks(importedTasks);
 
       if (!tasks.length) {
-        enterEmptyTaskState("Tasks imported.");
+        restartAfterEmptyImport();
         return;
       }
 
@@ -699,6 +739,9 @@
   };
 
   renderAll();
+  if (consumeLocalFlag(EMPTY_IMPORT_RESTART_NOTICE_KEY)) {
+    showToast("Empty task list imported.");
+  }
   const loadNotice = getLastLoadNotice();
   if (loadNotice) {
     showToast("Corrupted local data was backed up. Choose how to start.");

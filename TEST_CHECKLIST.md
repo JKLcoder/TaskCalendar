@@ -56,8 +56,8 @@ Use this checklist for the v0.3.1 local testing baseline. Mark each item after t
 - [ ] Confirm demo tasks load and Today Command Center remains visible.
 - [ ] Reset to clean storage and choose Import tasks.
 - [ ] Confirm valid imported tasks load and render.
-- [ ] Import `{ "version": 1, "tasks": [] }`, click New Task without restarting, and confirm all task form fields are editable.
-- [ ] After empty JSON import, create a minimal task, close/reopen, and confirm the task persists without first-run returning.
+- [ ] Import `{ "version": 1, "tasks": [] }` and confirm the app restarts into the normal empty calendar state without showing first-run.
+- [ ] After the empty JSON import restart, click New Task, create a minimal task, close/reopen, and confirm the task persists without first-run returning.
 - [ ] Confirm corrupted localStorage is backed up before fallback and does not crash the app.
 
 ## Task CRUD
