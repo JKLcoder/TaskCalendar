@@ -60,6 +60,12 @@
   const weekPressureHint = document.getElementById("weekPressureHint");
   const todayActionCount = document.getElementById("todayActionCount");
   const todayActionList = document.getElementById("todayActionList");
+  const endOfDayDoneCount = document.getElementById("endOfDayDoneCount");
+  const endOfDayRemainingCount = document.getElementById("endOfDayRemainingCount");
+  const endOfDayOverdueCount = document.getElementById("endOfDayOverdueCount");
+  const endOfDayCompletionText = document.getElementById("endOfDayCompletionText");
+  const endOfDayMessage = document.getElementById("endOfDayMessage");
+  const endOfDayRemainingButton = document.getElementById("endOfDayRemainingButton");
   const commandTodayIncompleteButton = document.getElementById("commandTodayIncompleteButton");
   const commandClearFiltersButton = document.getElementById("commandClearFiltersButton");
   const toast = document.getElementById("toast");
@@ -229,6 +235,33 @@
       weekOpen: weekOpenTasks.length,
       weekOverdue,
       weekPressure: getWeekPressureLevel(weekOpenTasks.length, weekOverdue)
+    };
+  }
+
+  function pluralize(count, singular, plural = `${singular}s`) {
+    return count === 1 ? singular : plural;
+  }
+
+  function getEndOfDayMetrics() {
+    const todayISO = dateToISO(getTodayDate());
+    const todayTasks = tasks.filter((task) => task.date === todayISO);
+    const done = todayTasks.filter((task) => task.status === "done").length;
+    const remaining = todayTasks.filter((task) => task.status !== "done").length;
+    const overdue = todayTasks.filter((task) => getEffectiveStatus(task) === "overdue").length;
+    const total = todayTasks.length;
+    const message = overdue > 0
+      ? `${overdue} overdue ${pluralize(overdue, "task")} ${overdue === 1 ? "needs" : "need"} a decision.`
+      : remaining > 0
+        ? `You still have ${remaining} open ${pluralize(remaining, "task")} today.`
+        : "Today is wrapped up.";
+
+    return {
+      done,
+      remaining,
+      overdue,
+      total,
+      completionText: `${done} of ${total} done`,
+      message
     };
   }
 
@@ -442,12 +475,28 @@
     `;
   }
 
+  function renderEndOfDayReview() {
+    const metrics = getEndOfDayMetrics();
+    endOfDayDoneCount.textContent = metrics.done;
+    endOfDayRemainingCount.textContent = metrics.remaining;
+    endOfDayOverdueCount.textContent = metrics.overdue;
+    endOfDayCompletionText.textContent = metrics.completionText;
+    endOfDayMessage.textContent = metrics.message;
+    endOfDayMessage.className = [
+      "end-day-message",
+      metrics.overdue > 0 ? "warning" : "",
+      metrics.remaining === 0 ? "wrapped" : ""
+    ].filter(Boolean).join(" ");
+    endOfDayRemainingButton.disabled = metrics.remaining === 0;
+  }
+
   function renderAll() {
     renderFirstRunState();
     updateFilterControls();
     renderCalendar();
     renderTodayCommandCenter();
     renderTodayActionList();
+    renderEndOfDayReview();
     renderPanel();
   }
 
@@ -755,6 +804,7 @@
   });
   todayIncompleteButton.addEventListener("click", showTodayIncomplete);
   commandTodayIncompleteButton.addEventListener("click", showTodayIncomplete);
+  endOfDayRemainingButton.addEventListener("click", showTodayIncomplete);
   commandClearFiltersButton.addEventListener("click", clearFilters);
   clearFiltersButton.addEventListener("click", clearFilters);
   taskSearchInput.addEventListener("input", () => {
@@ -843,6 +893,7 @@
     getFilters: () => ({ ...filters }),
     isFirstRunActive: () => firstRunActive,
     getTodayMetrics,
+    getEndOfDayMetrics,
     getTodayActionItems: () => getTodayActionItems().map((task) => ({ ...task })),
     getTasks: () => tasks.map((task) => ({ ...task })),
     renderAll

@@ -52,6 +52,13 @@ Use this checklist for the v0.4.0 local testing baseline. Mark each item after t
 - [ ] Confirm Today Action List shows `No urgent actions right now.` when no overdue or today incomplete tasks exist.
 - [ ] Confirm Today Action List visually treats Done as the primary action and Edit/Jump as secondary actions.
 - [ ] Confirm Today Action List remains compact and readable around a 1024x720 window.
+- [ ] Confirm End-of-Day Review appears below Today Action List and above Selected Day Details.
+- [ ] Confirm End-of-Day Review shows done today, remaining today, and overdue today counts.
+- [ ] Confirm End-of-Day Review completion text follows `N of N done`.
+- [ ] Confirm End-of-Day Review shows `Today is wrapped up.` when no today tasks remain open.
+- [ ] Confirm End-of-Day Review shows a concise remaining/overdue message when open today tasks exist.
+- [ ] Confirm View remaining today reuses Today incomplete behavior without mutating task data.
+- [ ] Confirm creating, editing, marking done, importing, and Reset demo data update End-of-Day Review counts.
 - [ ] Confirm Selected Day Details changes to `Full Today Details` when the selected date is today.
 - [ ] Confirm Show today incomplete selects today and filters unfinished today tasks.
 - [ ] Confirm Clear filters resets search, status filter, and Today incomplete mode.

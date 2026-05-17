@@ -155,6 +155,33 @@
             <p class="action-list-hint">Next actions from all unfinished tasks.</p>
             <div class="action-list" id="todayActionList"></div>
           </section>
+          <section class="end-day-review" id="endOfDayReview" aria-labelledby="endOfDayTitle">
+            <div class="end-day-header">
+              <div>
+                <div class="panel-kicker">End-of-Day Review</div>
+                <h2 class="end-day-title" id="endOfDayTitle">Wrap Today</h2>
+              </div>
+              <span class="end-day-completion" id="endOfDayCompletionText">0 of 0 done</span>
+            </div>
+            <div class="end-day-metrics" aria-label="End-of-day task summary">
+              <div class="end-day-metric done">
+                <span class="end-day-value" id="endOfDayDoneCount">0</span>
+                <span class="end-day-label">Done</span>
+              </div>
+              <div class="end-day-metric">
+                <span class="end-day-value" id="endOfDayRemainingCount">0</span>
+                <span class="end-day-label">Remaining</span>
+              </div>
+              <div class="end-day-metric overdue">
+                <span class="end-day-value" id="endOfDayOverdueCount">0</span>
+                <span class="end-day-label">Overdue</span>
+              </div>
+            </div>
+            <div class="end-day-footer">
+              <p class="end-day-message" id="endOfDayMessage">Today is wrapped up.</p>
+              <button class="button primary compact" id="endOfDayRemainingButton" type="button">View remaining today</button>
+            </div>
+          </section>
           <section class="selected-details" aria-labelledby="selectedDetailsTitle">
             <div class="panel-header">
               <div class="panel-kicker" id="selectedDetailsKicker">Selected Day Details</div>

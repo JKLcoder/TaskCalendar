@@ -965,6 +965,120 @@ button {
   color: var(--accent);
 }
 
+.end-day-review {
+  display: grid;
+  gap: 7px;
+  padding: 8px 10px 9px;
+  border-bottom: 1px solid var(--border);
+  background:
+    linear-gradient(180deg, rgba(75, 127, 82, 0.04), rgba(255, 255, 255, 0) 72%),
+    #ffffff;
+}
+
+.end-day-header,
+.end-day-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.end-day-title {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.end-day-completion {
+  flex: 0 0 auto;
+  border: 1px solid rgba(75, 127, 82, 0.22);
+  border-radius: 999px;
+  background: #f6faf6;
+  color: var(--done);
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.end-day-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.end-day-metric {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 5px;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fbfcfb;
+  padding: 5px 6px;
+}
+
+.end-day-metric.done {
+  background: #f6faf6;
+}
+
+.end-day-metric.overdue {
+  border-color: rgba(217, 72, 59, 0.24);
+  background: #fff8f7;
+}
+
+.end-day-value {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.end-day-metric.done .end-day-value {
+  color: var(--done);
+}
+
+.end-day-metric.overdue .end-day-value {
+  color: var(--overdue);
+}
+
+.end-day-label {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 760;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.end-day-footer {
+  align-items: center;
+}
+
+.end-day-message {
+  min-width: 0;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.end-day-message.warning {
+  color: var(--overdue);
+}
+
+.end-day-message.wrapped {
+  color: var(--done);
+}
+
+.end-day-footer .button {
+  flex: 0 0 auto;
+}
+
 .legend {
   display: grid;
   grid-template-columns: repeat(4, auto);
@@ -1254,13 +1368,18 @@ textarea:focus {
 }
 
 @media (max-height: 760px) and (min-width: 901px) {
-  .today-actions {
+  .today-actions,
+  .end-day-review {
     padding: 7px 9px 8px;
   }
 
   .action-list-hint,
   .action-description {
     display: none;
+  }
+
+  .end-day-message {
+    font-size: 11px;
   }
 
   .action-item {
